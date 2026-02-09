@@ -40,7 +40,33 @@ The challenge required a comprehensive approach spanning multiple disciplines:
 
 ### 🎯 Result
 
-*[Results section to be added]*
+🏆 **Overall Grand Winner - Factored Datathon 2024**
+
+Our solution was recognized as the **Overall Grand Winner** at the [Factored Datathon 2024](https://www.linkedin.com/feed/update/urn:li:activity:7245198944840957952/), competing against teams from across the industry.
+
+**Key Achievements:**
+
+✅ **Near Real-Time Monitoring Dashboard**
+- Developed a robust Power BI dashboard enabling maritime operators to visualize port status in near real-time
+- Provided predictive insights showing disruption probability for upcoming days
+- See the complete dashboard implementation in the [dashboards/](#) section
+
+✅ **Risk Scoring System**
+- Implemented a sophisticated risk percentage calculation for each monitored port
+- Successfully identified and quantified threats including:
+  - **Labor disputes**: Strike threats and union actions
+  - **Civil unrest**: Riots and protests near port facilities
+  - **Environmental hazards**: Climate events affecting operations
+
+✅ **Proactive Decision-Making**
+- Enabled logistics operators to take preventive actions 2-7 days before potential disruptions
+- Reduced operational uncertainty through data-driven risk assessment
+- Provided actionable insights for route optimization and contingency planning
+
+**Impact:**
+The solution transformed reactive crisis management into proactive risk mitigation, allowing maritime operators to make informed decisions based on predictive analytics rather than responding to disruptions after they occur.
+
+📊 **View Full Presentation**: See the complete project presentation and methodology in the [presentations/](#) section
 
 ---
 
@@ -48,11 +74,11 @@ The challenge required a comprehensive approach spanning multiple disciplines:
 
 ```
 ├── code/
-│   ├── Country Exploration.ipynb      # Exploration of GDELT patterns and insights
-│   ├── Country Exploration - BR.py    # Goldenstein Scale analysis
-│   └── Ports Exploration.py           # Port event identification analysis
-├── presentations/                      # [To be added]
-└── dashboards/                         # [To be added]
+│   ├── README.md                      # Code documentation and workflow guide
+│   ├── Country Exploration.ipynb      # Theme-based sentiment analysis
+│   └── Ports Exploration.ipynb        # Geospatial event filtering
+├── presentations/                      # Project presentations and methodology
+└── dashboards/                         # Power BI dashboards and visualizations
 ```
 
 ---
