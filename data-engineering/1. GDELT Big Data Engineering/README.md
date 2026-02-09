@@ -140,21 +140,21 @@ The data engineering pipeline was a critical foundation for the Factored Datatho
 ## 📂 Project Structure
 
 ```
-├── code/
-│   ├── bronze/                         # Raw data ingestion layer
+├── code/                               # Complete Medallion Architecture implementation
+│   ├── 1. bronze/                     # Raw data ingestion layer (✅ fully documented)
 │   │   ├── workflows/
-│   │   │   ├── events/                # GDELT Events ingestion
-│   │   │   └── gkg/                   # GDELT GKG ingestion
-│   │   └── testing/                   # Development notebooks
-│   ├── silver/                         # Cleaned data layer
+│   │   │   ├── events/                # GDELT Events ingestion (4 scripts)
+│   │   │   └── gkg/                   # GDELT GKG ingestion (3 scripts)
+│   │   └── testing/                   # Development notebooks (3 notebooks)
+│   ├── 2. silver/                     # Cleaned data layer (✅ fully documented)
 │   │   ├── workflow/
-│   │   │   └── gkg/                   # GKG data scraping and cleaning
-│   │   └── testing/                   # Development notebooks
-│   ├── gold/                           # Analytics-ready layer
+│   │   │   └── gkg/                   # GKG data scraping and cleaning (3 scripts)
+│   │   └── testing/                   # Development notebooks (1 notebook)
+│   ├── 3. gold/                       # Analytics-ready layer (✅ fully documented)
 │   │   ├── workflow/
-│   │   │   └── gkg/                   # Aggregated news summaries
-│   │   └── testing/                   # Development notebooks
-│   └── readme-de.md                   # Original data engineering notes
+│   │   │   └── gkg/                   # Aggregated news summaries (3 scripts)
+│   │   └── testing/                   # Development notebooks (2 notebooks)
+│   └── README.md                      # Comprehensive code documentation
 ├── presentations/                      # Architecture diagrams and presentations
 └── dashboards/                         # Monitoring dashboards
 ```
