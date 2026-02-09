@@ -79,17 +79,23 @@ code/
 
 ### Testing Notebooks
 
-#### gdelt-events-ingestion.py
-- **Purpose**: Development notebook for initial events pipeline testing
-- **Use**: Historical data backfill and pipeline validation
+#### gdelt-events-ingestion.py ✅ FULLY DOCUMENTED
+- **Purpose**: Development notebook demonstrating 5-stage pipeline evolution
+- **Stages**: Schema validation → Spark conversion → Delta merge → SQL validation → Historical backfill
+- **Date Range**: 2020-08-13 to 2023-08-12 (1,096 days of historical data)
+- **Use**: End-to-end pipeline validation from initial testing to production-ready backfill
 
-#### gdelt-events-ingestion-daily.py
-- **Purpose**: Daily incremental ingestion testing
-- **Use**: Validate incremental loading logic before productionization
+#### gdelt-events-ingestion-daily.py ✅ FULLY DOCUMENTED
+- **Purpose**: Daily incremental ingestion testing notebook
+- **Process**: Automatically processes yesterday's data using Delta Lake merge
+- **Use**: Validate daily loading pattern and idempotent operations before productionization
+- **Key Feature**: Simulates production scheduled workflow with automatic date calculation
 
-#### gdelt-gkg-ingestion.py
-- **Purpose**: Development notebook for GKG pipeline testing
-- **Use**: Schema validation and transformation testing
+#### gdelt-gkg-ingestion.py ✅ FULLY DOCUMENTED
+- **Purpose**: Development notebook for GKG (Global Knowledge Graph) pipeline testing
+- **Stages**: Single-date validation → Historical backfill (2023-03-27 to 2024-08-18)
+- **Schema**: 11 columns with semi-structured text fields (themes, locations, persons, orgs, tone)
+- **Use**: Test append-only pattern for GKG data (no unique IDs, larger files than Events)
 
 ---
 
