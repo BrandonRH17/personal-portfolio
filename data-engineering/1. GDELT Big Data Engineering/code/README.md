@@ -4,6 +4,30 @@ This folder contains the complete data engineering pipeline implementing the **M
 
 ---
 
+## ⚠️ Important Context: Hackathon Development
+
+**This pipeline was developed in 1 week during the Factored Datathon 2024.**
+
+Due to the accelerated timeline, some engineering shortcuts were taken that wouldn't be appropriate for production systems:
+
+### Hackathon Tradeoffs:
+- **Hardcoded Values**: Port lists, theme weights, and date ranges are hardcoded (should be configuration tables)
+- **Sequential Processing**: Web scraping and NLP run sequentially (should be parallelized/batched)
+- **Limited Error Handling**: Basic try-catch blocks without comprehensive retry logic
+- **Manual Workflows**: Some notebooks require manual execution (should be fully automated)
+- **CPU-Only Processing**: BART model runs on CPU (should use GPU cluster for production)
+- **Schema Issues**: Some merge conditions reference non-existent columns (fixed in later iterations)
+
+### What Went Right:
+✅ **Core Architecture**: Medallion pattern is solid and scalable
+✅ **Innovation**: Novel weighted scoring algorithm won Overall Grand Winner
+✅ **Data Quality**: Emotional charge filtering provides clean, actionable data
+✅ **Integration**: Successfully combined traditional ETL with modern NLP
+
+**This documentation reflects the actual development process—imperfect but functional under time constraints.**
+
+---
+
 ## 📂 Folder Structure
 
 ```
@@ -125,9 +149,12 @@ code/
 
 ### Testing Notebook
 
-#### gdelt_gkg_scraping.py
-- **Purpose**: Development testing for GKG scraping logic
-- **Use**: Validate parsing logic and data quality filters
+#### gdelt_gkg_scraping.py ✅ FULLY DOCUMENTED
+- **Purpose**: Development testing for GKG scraping and parsing logic
+- **Transformations**: Parse LOCATIONS/TONE fields, classify routes (Transpacific/Transatlantic)
+- **Web Scraping**: Top 3 most negative news per location/date using BeautifulSoup
+- **Key Feature**: Filters port-related themes (PORT, TRANSPORT, SHIPPING, MARITIME)
+- **Hackathon Note**: Sequential scraping and hardcoded port lists (time constraints)
 
 ---
 
@@ -155,13 +182,21 @@ code/
 
 ### Testing Notebooks
 
-#### Summary News Workflow.py
-- **Purpose**: End-to-end testing of news summarization pipeline
-- **Use**: Validate aggregation logic and output format
+#### Summary News Workflow.py ✅ FULLY DOCUMENTED
+- **Purpose**: End-to-end testing of AI-powered news summarization pipeline
+- **AI Model**: Facebook BART-large-CNN for extractive + abstractive summarization
+- **Process**: Filter disruption news (5 themes) → Rank by relevance → Generate summaries → Create dashboard dataset
+- **Innovation**: Combines traditional ETL with modern NLP for actionable intelligence
+- **Dashboard Impact**: Powers "Top Disruption News" card with AI-generated summaries
+- **Hackathon Note**: Sequential BART inference on CPU (~10-20 sec/article), should use GPU + batching
 
-#### gdelt_gkg_weighted_news_summary.py
-- **Purpose**: Development testing for weighted scoring algorithm
-- **Use**: Tune weighting parameters and validate calculations
+#### gdelt_gkg_weighted_news_summary.py ✅ FULLY DOCUMENTED
+- **Purpose**: Development testing for exponential weighted scoring algorithm (core innovation)
+- **Weighting Logic**: 5 themes = 500x, 4 themes = 250x, 3 themes = 100x, 2 themes = 5x, 1 theme = 0x
+- **Data Quality**: Filters emotionally-charged news (high polarity + neutral tone paradox)
+- **Innovation**: Theme co-occurrence reflects real-world multi-factor disruption severity
+- **Dashboard Impact**: Powers weighted news count KPI and risk score trends
+- **Winning Formula**: This approach won Overall Grand Winner at Factored Datathon 2024
 
 ---
 
