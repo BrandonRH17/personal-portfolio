@@ -82,24 +82,26 @@ code/
 
 ### GKG Workflow (3 steps)
 
-#### 01_download_and_unzip_gkg.py.py
+#### 01_download_and_unzip_gkg.py.py ✅ FULLY DOCUMENTED
 - **Purpose**: Download GDELT GKG (Global Knowledge Graph) data
 - **Schema**: 11 columns including THEMES, LOCATIONS, TONE, etc.
 - **Key Difference vs Events**: Much larger files (100-500 MB compressed)
 - **Process**: Same as events workflow but with GKG-specific schema
 
-#### 02_upsert_delta_table_gkg.py.py
+#### 02_upsert_delta_table_gkg.py.py ✅ FULLY DOCUMENTED
 - **Purpose**: Upsert GKG data into Delta table
 - **Schema Highlights**:
   - `DATE`: Event date (primary key component)
   - `THEMES`: Semicolon-delimited theme codes
   - `LOCATIONS`: Location information with coordinates
   - `TONE`: Sentiment metrics (tone, polarity, positive/negative scores)
-- **Merge Logic**: Complex merge condition (may use composite key)
+- **Merge Logic**: Composite key merge on 10 fields (DATE, NUMARTS, CAMEOEVENTIDS, THEMES, TONE, LOCATIONS, PERSONS, ORGANIZATIONS, SOURCES, SOURCEURLS)
+- **Hackathon Note**: Should use hash surrogate key for better performance
 
-#### 03_update_gkg_control_date.py
+#### 03_update_gkg_control_date.py ✅ FULLY DOCUMENTED
 - **Purpose**: Update control table for GKG processing
 - **Table**: Updates `gdelt_gkg` record in TABLE_CONTROL
+- **Hackathon Note**: Uses hardcoded yesterday date (should use task values)
 
 ### Testing Notebooks
 
@@ -129,23 +131,26 @@ code/
 
 ### GKG Workflow (3 steps)
 
-#### 00_get_gkg_control_date.py
+#### 00_get_gkg_control_date.py ✅ FULLY DOCUMENTED
 - **Purpose**: Retrieve last processed date for Silver GKG processing
-- **Source**: Queries TABLE_CONTROL for silver layer processing date
+- **Source**: Queries TABLE_CONTROL for 'silver-gdelt-gkg' record
 - **Note**: Separate control from Bronze to allow independent processing
 
-#### 01_scrap_data.py.py
-- **Purpose**: Parse and extract structured data from semi-structured GKG fields
+#### 01_scrap_data.py.py ✅ FULLY DOCUMENTED
+- **Purpose**: Parse semi-structured GKG fields, filter port news, and web scrape article content
 - **Key Transformations**:
-  - **THEMES**: Split semicolon-delimited string into array
-  - **LOCATIONS**: Parse complex location string (type#name#country#coords)
-  - **TONE**: Split comma-delimited tone metrics
-  - **Data Quality**: Remove emotionally-charged news (neutral tone + high polarity)
-- **Output**: Cleaned Silver GKG table
+  - **LOCATIONS**: Parse "type#name#country#code#lat#long" → CountryCode, LocationCode
+  - **TONE**: Parse "tone,positive,negative,polarity" → 4 structured columns
+  - **Route Classification**: Flag Transpacific (9 ports) / Transatlantic (11 ports) routes
+  - **Ranking**: Window function to identify top 3 most negative news per port/date
+  - **Web Scraping**: BeautifulSoup to extract article content for top 3 ranked articles
+- **Output**: Cleaned Silver GKG table with scraped content
+- **Hackathon Notes**: Indentation error in scrape_content function, missing imports, hardcoded port lists
 
-#### 03_update_gkg_control_date.py
+#### 03_update_gkg_control_date.py ✅ FULLY DOCUMENTED
 - **Purpose**: Update Silver layer control date
-- **Table**: Updates silver-specific control record
+- **Table**: Updates 'BRONZE-GDELT_GKG' record
+- **CRITICAL BUG**: TABLE_NAME mismatch! Retrieval looks for 'silver-gdelt-gkg' but update modifies 'BRONZE-GDELT_GKG', so control date is never actually updated
 
 ### Testing Notebook
 
@@ -164,21 +169,26 @@ code/
 
 ### GKG Workflow (3 steps)
 
-#### 00_get_gkg_control_date.py
+#### 00_get_gkg_control_date.py ✅ FULLY DOCUMENTED
 - **Purpose**: Retrieve last processed date for Gold layer
-- **Source**: Queries TABLE_CONTROL for gold layer processing date
+- **Source**: Queries TABLE_CONTROL for 'gold-gdelt-gkg' record
+- **Note**: Gold layer has independent control date from Bronze/Silver
 
-#### 01_build_gdelt_gkg_weighted_news_summary.py.py
-- **Purpose**: Create aggregated news summaries with weighted scores
-- **Key Aggregations**:
-  - **Weighted News Count**: Theme-based weighting (more themes = higher weight)
-  - **Port-Level Metrics**: Aggregate by port location and date
-  - **Risk Scores**: Calculate disruption risk percentages
-- **Output**: Gold table consumed by Power BI dashboards
+#### 01_build_gdelt_gkg_weighted_news_summary.py.py ✅ FULLY DOCUMENTED
+- **Purpose**: Apply exponential weighted scoring to create analytics-ready disruption metrics
+- **Core Innovation** (Winning Formula):
+  - **Emotional Charge Filter**: Remove sensationalist news (neutrality + polarity paradox)
+  - **5 Disruption Themes**: TRANSPORT_INFRASTRUCTURE, TRADE, MACROECONOMIC, PUBLIC_SECTOR, MARITIME_INCIDENT
+  - **Exponential Weighting**: 5 themes = 500x, 4 themes = 250x, 3 themes = 100x, 2 themes = 5x, 1 theme = 0x
+  - **Rationale**: Multi-theme co-occurrence reflects real-world disruption severity
+- **Aggregations**: Group by date/location/route, calculate weighted news counts
+- **Output**: gold.g_gdelt_gkg_weights_report (consumed by Power BI)
+- **Hackathon Note**: Bug in line 40 checks NumberOfNews instead of Total for 3-theme case
 
-#### 03_update_gkg_control_date.py
+#### 03_update_gkg_control_date.py ✅ FULLY DOCUMENTED
 - **Purpose**: Update Gold layer control date
-- **Table**: Updates gold-specific control record
+- **Table**: Updates 'gold-gdelt-gkg' record in TABLE_CONTROL
+- **Hackathon Note**: Uses hardcoded yesterday date (should use task values for backfill capability)
 
 ### Testing Notebooks
 
