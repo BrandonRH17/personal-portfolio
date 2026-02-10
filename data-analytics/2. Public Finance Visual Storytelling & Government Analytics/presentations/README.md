@@ -6,11 +6,37 @@ This folder contains the presentation materials from the IMF Open Innovation Cha
 
 ## 🎤 Presentation Files
 
-### [Presentation filename will be added when uploaded]
+### Reporte UNIS Champions - Desafío GT.pdf (370 KB)
 
-**Award-Winning Presentation - University of the Isthmus Champions**
+**Official Competition Report - University of the Isthmus Champions**
 
-This presentation secured the **Best Storytelling and Financial Analytics** award at the IMF ChallengeGT, competing against 9 other finalist teams.
+This comprehensive report was submitted to the IMF and Guatemala government officials, securing the **Best Storytelling and Financial Analytics** award at ChallengeGT, competing against 9 other finalist teams.
+
+#### Report Contents:
+
+**Executive Summary:**
+- Problem statement and context
+- Solution approach overview
+- Key findings summary
+- Impact and recommendations
+
+**Technical Methodology:**
+- Data integration from 4 government systems
+- Anomaly detection algorithms explained
+- Purchase splitting detection logic
+- Risk scoring methodology
+
+**Visual Analytics:**
+- Dashboard screenshots and explanations
+- Chart interpretations
+- Pattern identification examples
+- Evidence of fraud schemes
+
+**Results and Impact:**
+- Quantified findings (price inflation, splitting patterns)
+- Specific entity and vendor flagging
+- Potential savings calculation
+- Replicability for other sectors
 
 ---
 
@@ -148,19 +174,50 @@ This presentation secured the **Best Storytelling and Financial Analytics** awar
 
 ---
 
-## 📊 Presentation Format
+## 📊 Report Format
 
 **File Details:**
-- Microsoft PowerPoint (.pptx) or PDF
-- Designed for 16:9 widescreen
-- ~20-30 slides
-- Embedded Power BI screenshots
-- Animated data visualizations
+- PDF format for universal accessibility
+- Designed for government stakeholders
+- Comprehensive written analysis
+- Embedded visualizations from Power BI dashboard
+- Evidence-based fraud documentation
 
-**Recommended Viewing:**
-- PowerPoint presentation mode
-- Live demo of Power BI dashboard
-- Q&A session follow-up
+**Audience Considerations:**
+
+Given the **non-technical government audience** (Guatemala Ministry officials, IMF fiscal policy experts, public health administrators), the report emphasizes:
+
+1. **High-Level Diagrams:**
+   - Conceptual data flow (not technical architecture)
+   - Business process visualization
+   - Stakeholder-friendly graphics
+   - Focus on "what" rather than "how"
+
+2. **Visual Storytelling:**
+   - Dashboard screenshots with annotations
+   - Before/after comparisons
+   - Pattern highlighting
+   - Executive-friendly charts
+
+3. **Narrative Structure:**
+   - Problem → Investigation → Evidence → Impact
+   - Clear section headings
+   - Bullet-point summaries
+   - Actionable recommendations
+
+**Why High-Level Diagrams?**
+
+Technical implementation details were intentionally **omitted from the main presentation** because:
+- ✅ Government officials needed to understand **business value**, not technical architecture
+- ✅ IMF jury focused on **policy impact** and **replicability**
+- ✅ Detailed data models were provided separately to technical government staff
+- ✅ Storytelling award criteria valued **communication clarity** over technical complexity
+
+**Technical Documentation Delivered Separately:**
+- Detailed data models (Entity-Relationship Diagrams)
+- SQL queries and transformation logic
+- Power BI DAX measures documentation
+- Implementation specifications for IT teams
 
 ---
 

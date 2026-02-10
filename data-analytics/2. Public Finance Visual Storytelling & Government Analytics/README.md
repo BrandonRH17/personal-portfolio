@@ -190,11 +190,26 @@ Our mission was to develop a **predictive analytics platform** using historical 
 
 ```
 2. Public Finance Visual Storytelling & Government Analytics/
-├── code/                    # Data cleaning and transformation scripts
-├── dashboards/              # Power BI dashboard files
-├── presentations/           # Challenge presentation materials
-└── README.md                # This file
+├── dashboards/                              # Power BI dashboard and architecture diagrams
+│   ├── DASH.pbix                            # Interactive fraud detection dashboard (13.1 MB)
+│   ├── MINFIN Diagram.drawio.pdf            # High-level system architecture (37 KB)
+│   └── README.md                            # Dashboard documentation
+├── presentations/                           # Official competition report
+│   ├── Reporte UNIS Champions - Desafío GT.pdf   # Competition submission (370 KB)
+│   └── README.md                            # Report documentation
+└── README.md                                # This file
 ```
+
+**Note on Code/Technical Documentation:**
+
+Detailed technical implementations (data transformation scripts, SQL queries, DAX formulas) were **intentionally omitted from this portfolio** because:
+
+1. **Audience Focus:** The competition prioritized **visual storytelling and communication** for non-technical government stakeholders over code artifacts
+2. **Proprietary Constraints:** Detailed data models contained sensitive Guatemala government system information
+3. **Value Demonstration:** The **Power BI dashboard** and **analytical methodology** (documented in READMEs) demonstrate technical competency more effectively than raw code for portfolio purposes
+4. **Award Category:** Winning **"Best Storytelling"** emphasized presentation quality over implementation details
+
+Technical deep-dives (Entity-Relationship Diagrams, transformation logic, statistical formulas) were delivered separately to government IT teams for implementation.
 
 ---
 
