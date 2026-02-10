@@ -12,6 +12,35 @@ This project showcases advanced data analytics and visual storytelling technique
 
 Developed for the International Monetary Fund's (IMF) Open Innovation Challenge in partnership with Guatemala's Ministry of Public Finance and Ministry of Public Health and Social Assistance (MSPAS), this solution won the award for **Best Storytelling and Financial Analytics** among 10 finalist teams selected from 37 applicants.
 
+### ⏱️ Project Context: Rapid Development Under Pressure
+
+This project holds special significance as it represents **the beginning of my analytics career** and demonstrates the ability to deliver impactful results under extreme time constraints:
+
+**Development Timeline:**
+- ⚡ **4 working sessions total** (approximately 16-20 hours)
+- 🎯 **Live competition format** - solutions developed and presented in real-time
+- ⏰ **Tight deadlines** - from problem statement to final presentation in days, not weeks
+- 🏆 **Immediate results** - competed against 9 other finalist teams with years of experience
+
+**Why This Project Matters to Me:**
+
+I remember this competition with **deep fondness** because it taught me invaluable lessons about:
+- **Rapid problem-solving** under pressure
+- **Prioritization** - focusing on high-impact analytics over perfect code
+- **Storytelling** - communicating complex findings to non-technical audiences
+- **Iterative development** - building solutions incrementally in live sessions
+
+This was my **introduction to professional analytics work**, and winning "Best Storytelling and Financial Analytics" validated that effective communication and business impact matter more than technical complexity. The experience shaped my approach to data analytics: **start with the story, then build the analysis to support it.**
+
+Despite the limited time and live-session constraints, the solution was sophisticated enough to:
+- ✅ Detect real fraud patterns in government procurement
+- ✅ Integrate 4 separate government data systems
+- ✅ Implement statistical anomaly detection
+- ✅ Create production-quality Power BI dashboards
+- ✅ Present compelling visual narratives to IMF officials
+
+This project proves that **impactful analytics doesn't require months of development** - it requires clear thinking, effective communication, and focus on solving the right problems.
+
 ---
 
 ## 🎯 Challenge Context (Situation)
@@ -190,14 +219,14 @@ Our mission was to develop a **predictive analytics platform** using historical 
 
 ```
 2. Public Finance Visual Storytelling & Government Analytics/
-├── dashboards/                              # Power BI dashboard and architecture diagrams
-│   ├── DASH.pbix                            # Interactive fraud detection dashboard (13.1 MB)
-│   ├── MINFIN Diagram.drawio.pdf            # High-level system architecture (37 KB)
-│   └── README.md                            # Dashboard documentation
-├── presentations/                           # Official competition report
-│   ├── Reporte UNIS Champions - Desafío GT.pdf   # Competition submission (370 KB)
-│   └── README.md                            # Report documentation
-└── README.md                                # This file
+├── dashboards/                                            # Power BI dashboard and diagrams
+│   ├── IMF ChallengeGT - Fraud Detection Dashboard.pbix   # Interactive dashboard (13.1 MB)
+│   ├── IMF ChallengeGT - System Architecture Diagram.pdf  # High-level architecture (37 KB)
+│   └── README.md                                          # Dashboard documentation
+├── presentations/                                         # Official competition report
+│   ├── IMF ChallengeGT - Final Report - UNIS Champions.pdf  # Final submission (370 KB)
+│   └── README.md                                          # Report documentation
+└── README.md                                              # This file
 ```
 
 **Note on Code/Technical Documentation:**

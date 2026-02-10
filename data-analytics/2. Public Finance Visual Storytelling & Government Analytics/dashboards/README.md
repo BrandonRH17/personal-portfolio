@@ -6,7 +6,7 @@ This folder contains the award-winning Power BI dashboard and high-level archite
 
 ## 📊 Dashboard Files
 
-### DASH.pbix (13.1 MB)
+### IMF ChallengeGT - Fraud Detection Dashboard.pbix (13.1 MB)
 
 **Award-Winning Dashboard - Best Storytelling and Financial Analytics**
 
@@ -42,7 +42,7 @@ This Power BI dashboard provides comprehensive fraud detection and anomaly analy
 
 ## 📐 Architecture Diagram
 
-### MINFIN Diagram.drawio.pdf (37 KB)
+### IMF ChallengeGT - System Architecture Diagram.pdf (37 KB)
 
 **High-Level System Architecture**
 
@@ -80,7 +80,7 @@ The diagram was designed to communicate:
 - Dataset embedded in .pbix file (no live connection required for demo)
 
 ### Opening the Dashboard:
-1. Download `DASH.pbix`
+1. Download `IMF ChallengeGT - Fraud Detection Dashboard.pbix`
 2. Open with Power BI Desktop
 3. Navigate through report pages using tabs
 4. Use interactive filters for detailed investigation

@@ -6,7 +6,7 @@ This folder contains the presentation materials from the IMF Open Innovation Cha
 
 ## 🎤 Presentation Files
 
-### Reporte UNIS Champions - Desafío GT.pdf (370 KB)
+### IMF ChallengeGT - Final Report - UNIS Champions.pdf (370 KB)
 
 **Official Competition Report - University of the Isthmus Champions**
 
