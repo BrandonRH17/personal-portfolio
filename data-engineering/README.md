@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://5279291.fs1.hubspotusercontent-na1.net/hubfs/5279291/Data%20Engineering.png" alt="Data Engineering Header" width="100%" style="max-width: 800px;" />
+  <img src="https://anthropos.work/_next/image?url=https%3A%2F%2Fcontent.anthropos.work%2Fassets%2Ff6e18932-35b9-4d8f-9cb5-cb22e84be577&w=3840&q=90" alt="Data Engineering Header" width="100%" style="max-width: 800px;" />
 </div>
 
 # ⚙️ Data Engineering
