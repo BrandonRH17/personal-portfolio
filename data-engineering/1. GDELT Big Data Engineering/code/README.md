@@ -61,13 +61,13 @@ code/
 - **Output**: Sets task values for next date to process
 - **Key Logic**: Calculates `last_date + 1 day` for incremental loading
 
-#### 01_download_and_unzip.py.py ✅ FULLY DOCUMENTED
+#### 01_download_and_unzip.py ✅ FULLY DOCUMENTED
 - **Purpose**: Download GDELT Events ZIP, extract CSV, convert to Parquet
 - **Process**: HTTP download → In-memory extraction → Pandas DataFrame → Parquet → S3 upload
 - **Schema**: 57 columns (Events 1.0 format)
 - **Output**: Parquet file in S3 (`s3://bucket/events/gdelt/YYYYMMDD.parquet`)
 
-#### 02_upsert_delta_table.py.py ✅ FULLY DOCUMENTED
+#### 02_upsert_delta_table.py ✅ FULLY DOCUMENTED
 - **Purpose**: Read Parquet from S3 and upsert into Delta Lake table
 - **Process**: Read from S3 → Add metadata columns → Delta merge (upsert)
 - **Merge Logic**: Match on `GlobalEventID` (primary key)
@@ -82,13 +82,13 @@ code/
 
 ### GKG Workflow (3 steps)
 
-#### 01_download_and_unzip_gkg.py.py ✅ FULLY DOCUMENTED
+#### 00_download_and_unzip_gkg.py ✅ FULLY DOCUMENTED
 - **Purpose**: Download GDELT GKG (Global Knowledge Graph) data
 - **Schema**: 11 columns including THEMES, LOCATIONS, TONE, etc.
 - **Key Difference vs Events**: Much larger files (100-500 MB compressed)
 - **Process**: Same as events workflow but with GKG-specific schema
 
-#### 02_upsert_delta_table_gkg.py.py ✅ FULLY DOCUMENTED
+#### 01_upsert_delta_table_gkg.py ✅ FULLY DOCUMENTED
 - **Purpose**: Upsert GKG data into Delta table
 - **Schema Highlights**:
   - `DATE`: Event date (primary key component)
@@ -98,7 +98,7 @@ code/
 - **Merge Logic**: Composite key merge on 10 fields (DATE, NUMARTS, CAMEOEVENTIDS, THEMES, TONE, LOCATIONS, PERSONS, ORGANIZATIONS, SOURCES, SOURCEURLS)
 - **Hackathon Note**: Should use hash surrogate key for better performance
 
-#### 03_update_gkg_control_date.py ✅ FULLY DOCUMENTED
+#### 02_update_gkg_control_date.py ✅ FULLY DOCUMENTED
 - **Purpose**: Update control table for GKG processing
 - **Table**: Updates `gdelt_gkg` record in TABLE_CONTROL
 - **Hackathon Note**: Uses hardcoded yesterday date (should use task values)
@@ -136,7 +136,7 @@ code/
 - **Source**: Queries TABLE_CONTROL for 'silver-gdelt-gkg' record
 - **Note**: Separate control from Bronze to allow independent processing
 
-#### 01_scrap_data.py.py ✅ FULLY DOCUMENTED
+#### 01_scrap_data.py ✅ FULLY DOCUMENTED
 - **Purpose**: Parse semi-structured GKG fields, filter port news, and web scrape article content
 - **Key Transformations**:
   - **LOCATIONS**: Parse "type#name#country#code#lat#long" → CountryCode, LocationCode
@@ -147,7 +147,7 @@ code/
 - **Output**: Cleaned Silver GKG table with scraped content
 - **Hackathon Notes**: Indentation error in scrape_content function, missing imports, hardcoded port lists
 
-#### 03_update_gkg_control_date.py ✅ FULLY DOCUMENTED
+#### 02_update_gkg_control_date.py ✅ FULLY DOCUMENTED
 - **Purpose**: Update Silver layer control date
 - **Table**: Updates 'BRONZE-GDELT_GKG' record
 - **CRITICAL BUG**: TABLE_NAME mismatch! Retrieval looks for 'silver-gdelt-gkg' but update modifies 'BRONZE-GDELT_GKG', so control date is never actually updated
@@ -174,7 +174,7 @@ code/
 - **Source**: Queries TABLE_CONTROL for 'gold-gdelt-gkg' record
 - **Note**: Gold layer has independent control date from Bronze/Silver
 
-#### 01_build_gdelt_gkg_weighted_news_summary.py.py ✅ FULLY DOCUMENTED
+#### 01_build_gdelt_gkg_weighted_news_summary.py ✅ FULLY DOCUMENTED
 - **Purpose**: Apply exponential weighted scoring to create analytics-ready disruption metrics
 - **Core Innovation** (Winning Formula):
   - **Emotional Charge Filter**: Remove sensationalist news (neutrality + polarity paradox)
@@ -185,7 +185,7 @@ code/
 - **Output**: gold.g_gdelt_gkg_weights_report (consumed by Power BI)
 - **Hackathon Note**: Bug in line 40 checks NumberOfNews instead of Total for 3-theme case
 
-#### 03_update_gkg_control_date.py ✅ FULLY DOCUMENTED
+#### 02_update_gkg_control_date.py ✅ FULLY DOCUMENTED
 - **Purpose**: Update Gold layer control date
 - **Table**: Updates 'gold-gdelt-gkg' record in TABLE_CONTROL
 - **Hackathon Note**: Uses hardcoded yesterday date (should use task values for backfill capability)
@@ -216,16 +216,14 @@ code/
 
 **Bronze Layer** (Runs every 15 minutes):
 ```
-00_get_control_date
-        ↓
-    (parallel)
-    ↙        ↘
-Events       GKG
-01_download  01_download
-    ↓            ↓
-02_upsert    02_upsert
-    ↓            ↓
-03_update    03_update
+Events Workflow          GKG Workflow
+00_get_control_date     (no control date - starts directly)
+        ↓                       ↓
+01_download  ←──────────→  00_download
+        ↓                       ↓
+02_upsert    ←──────────→  01_upsert
+        ↓                       ↓
+03_update    ←──────────→  02_update
 ```
 
 **Silver Layer** (Triggered after Bronze success):
@@ -234,7 +232,7 @@ Events       GKG
         ↓
 01_scrap_data
         ↓
-03_update_control_date
+02_update_control_date
 ```
 
 **Gold Layer** (Triggered after Silver success):
@@ -243,7 +241,7 @@ Events       GKG
         ↓
 01_build_weighted_summary
         ↓
-03_update_control_date
+02_update_control_date
 ```
 
 ### Dependency Chain
