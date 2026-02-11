@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ICU Patient Prioritization - Executive Report</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 1in;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+        }
+        h1 {
+            color: #1a5490;
+            font-size: 28px;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 15px;
+            margin-top: 0;
+            page-break-after: avoid;
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 22px;
+            margin-top: 40px;
+            border-bottom: 2px solid #95a5a6;
+            padding-bottom: 8px;
+            page-break-after: avoid;
+        }
+        h3 {
+            color: #34495e;
+            font-size: 18px;
+            margin-top: 25px;
+            page-break-after: avoid;
+        }
+        p {
+            margin: 12px 0;
+            text-align: justify;
+        }
+        strong {
+            color: #c0392b;
+            font-weight: 600;
+        }
+        hr {
+            border: none;
+            border-top: 3px solid #3498db;
+            margin: 35px 0;
+        }
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .header-info {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        @media print {
+            body {
+                background: white;
+            }
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+            tr {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>ICU Patient Prioritization - Executive Report</h1><p><strong>For:</strong> ICU Medical Management Team
+<strong>Date:</strong> February 10, 2026
+<strong>Prepared by:</strong> Healthcare Analytics Team
+<strong>Data Source:</strong> MIMIC-IV Clinical Database (100 patients, 275 admissions, 140 ICU stays)</p><hr></p><h2>EXECUTIVE SUMMARY</h2><p>This report provides data-driven insights to prioritize ICU patient care based on historical patient outcomes, risk factors, and resource utilization patterns.</p><h3>Key Findings at a Glance</h3><table><tr><th> Metric | Value | Clinical Significance |
+|<hr><hr>--|<hr><hr>-|<hr><hr><hr><hr><hr><hr><hr>-|
+| ICU Admission Rate | <strong>46.5%</strong> | Nearly half of all admissions require ICU care |
+| ICU Mortality Rate | <strong>14.3%</strong> | All in-hospital deaths occurred in ICU patients |
+| Average ICU Stay | <strong>3.7 days</strong> | Plan staffing and resources accordingly |
+| Hospital Stay (ICU patients) | <strong>10.2 days</strong> | 2.1x longer than non-ICU patients (4.9 days) |
+| Highest Risk Age Group | <strong>80+ years</strong> | 26.3% mortality rate |
+| Critical Resource Need | <strong>14.3%</strong> | Require extended ICU care (>7 days) |</p><hr></p><h2>1. CRITICAL PATIENT RISK FACTORS</h2><h3>Age-Based Risk Stratification</h3><p><strong>Finding:</strong> Age is a strong predictor of ICU mortality</p><table><tr><th> Age Group | Patients | Deaths | Mortality Rate |
+|<hr><hr><hr>--|<hr><hr><hr>-|<hr><hr>--|<hr><hr><hr><hr><hr>-|
+| 19-35 | 8 | 0 | 0.0% |
+| 36-50 | 22 | 0 | 0.0% |
+| <strong>51-65</strong> | 54 | 7 | <strong>13.0%</strong> |
+| <strong>66-80</strong> | 37 | 8 | <strong>21.6%</strong> |
+| <strong>80+</strong> | 19 | 5 | <strong>26.3%</strong> |</p><p><strong>Clinical Recommendation:</strong>
+- <strong>PRIORITIZE:</strong> Patients aged 65+ for enhanced monitoring
+- <strong>ACTION:</strong> Implement early warning protocols for elderly ICU patients
+- <strong>RESOURCE:</strong> Allocate experienced nursing staff to 80+ age group</p><hr></p><h3>Length of Stay and Mortality Correlation</h3><p><strong>Finding:</strong> Non-survivors have significantly longer ICU stays</p><p>- <strong>Survivors:</strong> Average 3.30 days (Median: 2.05 days)
+- <strong>Non-Survivors:</strong> Average 5.93 days (Median: 4.27 days)</p><p><strong>Clinical Insight:</strong>
+- Patients with extended ICU stays (>5 days) require intensified monitoring
+- Consider early palliative care consultations for prolonged stays
+- Implement daily review protocols for patients exceeding 4-day threshold</p><hr></p><h2>2. HIGH-MORTALITY DIAGNOSES REQUIRING IMMEDIATE ATTENTION</h2><h3>Top 5 Critical Diagnoses</h3><table><tr><th> Diagnosis | Mortality Rate | Cases | Action Required |
+|<hr><hr><hr>--|<hr><hr><hr><hr><hr>-|<hr><hr>-|<hr><hr><hr><hr><hr>--|
+| <strong>Encounter for palliative care</strong> | <strong>77.8%</strong> | 9 | Palliative team involvement |
+| <strong>Acute respiratory failure</strong> | <strong>75.0%</strong> | 4 | Immediate respiratory support |
+| <strong>Medical procedure complications</strong> | <strong>71.4%</strong> | 7 | Enhanced surgical oversight |
+| <strong>Anemia in chronic diseases</strong> | <strong>66.7%</strong> | 3 | Hematology consultation |
+| <strong>Intracerebral hemorrhage</strong> | <strong>66.7%</strong> | 3 | Neurology/neurosurgery consult |</p><p><strong>Clinical Recommendation:</strong>
+- Establish rapid response protocols for acute respiratory failure
+- Mandatory intensivist involvement for patients with >60% mortality diagnoses
+- Daily multidisciplinary rounds for high-risk diagnostic categories</p><hr></p><h2>3. RESOURCE ALLOCATION INSIGHTS</h2><h3>ICU Capacity Planning</h3><p><strong>Current Distribution:</strong>
+- <strong>Short stays (≤1 day):</strong> 16.4% of patients
+  - *Implication:* Quick turnover, plan for frequent admissions/discharges
+- <strong>Medium stays (1-7 days):</strong> 69.3% of patients
+  - *Implication:* Core ICU population, standard staffing model
+- <strong>Long stays (>7 days):</strong> 14.3% of patients
+  - *Implication:* Resource-intensive, consider step-down units</p><p><strong>Financial Impact:</strong>
+- ICU patients consume 2.1x hospital resources (10.2 vs 4.9 days average stay)
+- 14.3% of ICU patients (long-stay) account for disproportionate resource use
+- Non-ICU mortality: 0% → ICU represents all high-acuity care</p><p><strong>Staffing Recommendation:</strong>
+- Maintain nurse:patient ratio of 1:2 for general ICU
+- Enhance to 1:1 for patients aged 80+ or with high-mortality diagnoses
+- Allocate dedicated resources for 14% long-stay patient population</p><hr></p><h2>4. MOST COMMON ICU CONDITIONS</h2><h3>High-Volume Diagnoses (Top 5)</h3><p>1. <strong>Unspecified essential hypertension</strong> - 38 cases
+2. <strong>Hyperlipidemia</strong> - 31 cases
+3. <strong>Coronary atherosclerosis</strong> - 18 cases
+4. <strong>Acute kidney failure</strong> - 16 cases
+5. <strong>Type 2 diabetes</strong> - 15 cases</p><p><strong>Operational Insight:</strong>
+- These chronic conditions represent comorbidities, not primary ICU causes
+- Develop standardized care pathways for common comorbid conditions
+- Ensure adequate pharmacy resources for cardiovascular/renal medications</p><hr></p><h2>5. ACTIONABLE PRIORITY MATRIX</h2><h3>Immediate Actions (24-48 hours)</h3><p>1. <strong>High-Risk Patient Identification</strong>
+   - Flag all patients aged 80+ for enhanced monitoring
+   - Daily review of patients exceeding 4-day ICU stay
+   - Immediate palliative care consult for patients with 75%+ mortality diagnoses</p><p>2. <strong>Staffing Adjustments</strong>
+   - Increase nurse:patient ratio for elderly (80+) patients
+   - Assign senior nurses to high-mortality diagnosis patients
+   - Ensure 24/7 intensivist availability</p><p>3. <strong>Clinical Protocols</strong>
+   - Implement early warning score system
+   - Establish rapid response team for respiratory failure
+   - Daily multidisciplinary rounds (intensivist, nursing, pharmacy, social work)</p><h3>Medium-Term Actions (1-2 weeks)</h3><p>4. <strong>Resource Planning</strong>
+   - Evaluate step-down unit capacity for ICU overflow
+   - Plan bed allocation: 70% standard ICU, 15% long-stay, 15% short-stay turnover
+   - Review staffing models for 46.5% ICU admission rate</p><p>5. <strong>Quality Improvement</strong>
+   - Track ICU mortality rate (target: <14.3%)
+   - Monitor average length of stay (target: maintain 3.7 days)
+   - Implement 48-hour readmission tracking
+   - Establish mortality review process</p><hr></p><h2>6. KEY PERFORMANCE INDICATORS TO MONITOR</h2><table><tr><th> KPI | Current Value | Target | Monitoring Frequency |
+|<hr>--|<hr><hr><hr><hr><hr>|<hr><hr>--|<hr><hr><hr><hr><hr><hr><hr>|
+| ICU Mortality Rate | 14.3% | <12% | Weekly |
+| Average ICU LOS | 3.7 days | 3.0-3.5 days | Weekly |
+| 80+ Age Group Mortality | 26.3% | <20% | Monthly |
+| Long-Stay Patients (>7d) | 14.3% | <12% | Weekly |
+| Bed Occupancy Rate | - | 80-85% | Daily |
+| ICU Readmission <48h | - | <5% | Monthly |</p><hr></p><h2>7. CLINICAL DECISION SUPPORT ALGORITHM</h2><h3>Patient Prioritization Framework</h3><p><strong>CRITICAL (Highest Priority)</strong>
+- Age 80+ <strong>AND</strong> any high-mortality diagnosis (>60%)
+- Acute respiratory failure
+- ICU stay >5 days with declining trajectory
+- Intracerebral hemorrhage</p><p><strong>HIGH (Enhanced Monitoring)</strong>
+- Age 65-80 with comorbidities
+- ICU stay 3-5 days
+- Post-surgical complications
+- Acute kidney failure</p><p><strong>STANDARD (Routine ICU Care)</strong>
+- Age <65 with stable vitals
+- ICU stay <3 days with improving trajectory
+- Post-operative monitoring
+- Chronic condition management</p><hr></p><h2>8. CONCLUSIONS AND NEXT STEPS</h2><h3>Summary of Critical Insights</h3><p>1. <strong>Age matters:</strong> Patients 80+ have 26.3% mortality - require enhanced protocols
+2. <strong>Time is critical:</strong> Extended ICU stays (>5 days) correlate with poor outcomes
+3. <strong>Specific diagnoses drive mortality:</strong> Palliative care (77.8%), respiratory failure (75%)
+4. <strong>Resource intensity:</strong> ICU patients use 2.1x hospital resources vs non-ICU
+5. <strong>Capacity planning:</strong> 46.5% admission rate requires robust ICU infrastructure</p><h3>Recommended Next Steps</h3><p>1. <strong>This Week:</strong> Implement age-based risk stratification and enhanced monitoring
+2. <strong>This Month:</strong> Establish clinical protocols for high-mortality diagnoses
+3. <strong>This Quarter:</strong> Review and optimize resource allocation and staffing models
+4. <strong>Ongoing:</strong> Track KPIs and adjust protocols based on outcomes</p><hr></p><h2>CONTACT INFORMATION</h2><p><strong>For questions or clarifications:</strong>
+- Healthcare Analytics Team
+- Email: analytics@hospital.org
+- Phone: (555) 123-4567</p><p><strong>Data Governance:</strong>
+- All data deidentified per HIPAA requirements
+- Analysis conducted on MIMIC-IV Clinical Database Demo v2.2
+- MIT License - Open data for research and quality improvement</p><hr></p><p><strong>Report Version:</strong> 1.0
+<strong>Last Updated:</strong> February 10, 2026
+<strong>Next Review:</strong> March 10, 2026
+</p>
+</body>
+</html>
