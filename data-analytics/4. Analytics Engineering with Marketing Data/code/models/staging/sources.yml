@@ -1,0 +1,39 @@
+version: 2
+
+sources: 
+  - name: raw
+    schema: raw
+    description: "Raw schema coming directly from DuckDB"
+    tables: 
+      - name: customers
+        description: "Raw table containing information about customers"
+        columns: 
+          - name: customer_id
+            description: "Unique identifier for each customer"
+            data_tests: 
+              - unique
+              - not_null
+      - name: campaigns
+        description: "Raw table containing information about the marketing campaigns"
+        columns: 
+          - name: campaign_id
+            description: "Unique identifier for each campaign"
+            data_tests: 
+              - unique
+              - not_null
+      - name: ad_clicks
+        description: "Raw table containing information about the ad clicks"
+        columns: 
+          - name: click_id 
+            description: "Unique identifier per ad click"
+            data_tests: 
+              - unique
+              - not_null
+      - name: conversions
+        description: "Raw table containing information about the conversions"
+        columns: 
+          - name: conversion_id
+            description: "Unique identifier per conversion"
+            data_tests: 
+              - unique
+              - not_null

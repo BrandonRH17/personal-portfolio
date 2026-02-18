@@ -11,6 +11,7 @@ This section showcases my data analytics projects and expertise. Here, I demonst
 - **Data Acquisition with SQL**: Querying and extracting data from various database systems
 - **Data Cleaning & Extraction**: Transforming raw data into analysis-ready datasets
 - **Data Quality Best Practices**: Implementing validation rules and ensuring data integrity
+- **Analytics Engineering**: Building transformation pipelines with dbt and modern tooling
 - **Power BI Dashboards**: Creating interactive visualizations and executive reports
 
 ## Projects
