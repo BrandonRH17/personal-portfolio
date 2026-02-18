@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: mrt_ga__campaign_performance
+    description: "Summarized performance view per campaign, including acquisition and conversion metrics."
+    columns:
+      - name: campaign_id
+        description: "Unique identifier for the campaign."
+        data_tests:
+          - unique
+          - not_null
+      - name: campaign_name
+        description: "Name of the campaign."
+      - name: channel
+        description: "Marketing channel used (e.g. paid_search, email, display, paid_social)."
+      - name: start_date
+        description: "Date when the campaign started."
+        data_tests:
+          - not_null
+      - name: end_date
+        description: "Date when the campaign ended or is scheduled to end."
+      - name: budget_usd
+        description: "Total budget allocated to the campaign in USD."
+      - name: status
+        description: "Current status of the campaign."
+        data_tests:
+          - accepted_values:
+              values: ["active", "paused", "completed"]
+      - name: q_clicks
+        description: "Total number of distinct clicks registered for the campaign."
+      - name: q_clicked_users
+        description: "Number of distinct users who clicked on the campaign."
+      - name: avg_cost_per_click
+        description: "Average cost per click in USD, rounded to 2 decimals."
+      - name: q_converted_users
+        description: "Number of distinct users who converted after interacting with the campaign."
+      - name: avg_cost_per_conversion
+        description: "Campaign budget divided by number of converted users, in USD."
+      - name: total_revenue_generated
+        description: "Total revenue in USD attributed to the campaign conversions."

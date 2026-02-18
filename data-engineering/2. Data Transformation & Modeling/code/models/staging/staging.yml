@@ -1,0 +1,109 @@
+version: 2
+
+models: 
+  - name: stg_ga__customers
+    description: "Cleaned and standardized data regarding the customer dimension from raw sources"
+    columns: 
+      - name: customer_id
+        description: "Unique identifier for each customer"
+        data_tests: 
+          - unique
+          - not_null
+      - name: first_name
+        description: "Customer first name in proper case"
+      - name: last_name
+        description: "Customer last name in proper case"
+      - name: full_name
+        description: "Full name derived from first and last name"
+      - name: email
+        description: "Lowercased and validated email, null if invalid format"
+      - name: country
+        description: "Customer country in proper case"
+      - name: signup_date
+        description: "Date the customer signed up"
+        data_tests:
+          - not_null
+  - name: stg_ga__campaigns
+    description: "Cleaned and standardized data regarding campaigns data from raw source"
+    columns: 
+      - name: campaign_id
+        description: "Unique identifier for a campaign"
+        data_tests: 
+          - unique
+          - not_null 
+      - name: campaign_name
+        description: "Name of the campaign"
+      - name: channel
+        description: "Marketing channel used"
+        data_tests: 
+          - accepted_values: 
+              values: ["paid_search", "paid_social", "email", "organic", "display"]
+      - name: start_date
+        description: "Campaign start date"
+      - name: end_date
+        description: "Campaign end date"
+      - name: budget_usd
+        description: "Total campaign budget in USD"
+      - name: status
+        description: "Current campaign status"
+        data_tests: 
+          - accepted_values: 
+              values: ["active", "paused", "completed"]
+  - name: stg_ga__conversions
+    description: "Cleaned and standardized data regarding conversions coming from raw data sources"
+    columns: 
+      - name: conversion_id
+        description: "Unique identifier for each conversion"
+        data_tests: 
+          - unique
+          - not_null
+      - name: click_id
+        description: "Foreign key to ad clicks"
+        data_tests: 
+          - not_null
+      - name: customer_id
+        description: "Foreign key to customer"
+        data_tests: 
+          - not_null
+      - name:  campaign_id
+        description: "Foreign key to campaigns"
+        data_tests: 
+          - not_null
+      - name: conversion_date
+        description: "Date when the conversion ocurred"
+        data_tests: 
+          - not_null
+      - name: revenue_usd
+        description: "Revenue generated for that specific conversion"
+      - name: conversion_type
+        description: "Type of conversion"
+        data_tests: 
+          - accepted_values: 
+              values: ["purchase", "signup", "lead", "download"]
+  - name: stg_ga__ad_clicks
+    description: "Cleaned and standardized data regarding ad clicks coming directly from raw data source"
+    columns: 
+      - name: click_id
+        description: "Unique identifier for each click"
+        data_tests: 
+          - unique
+          - not_null
+      - name: campaign_id
+        description: "Foreign key to campaigns"
+        data_tests: 
+          - not_null
+      - name: customer_id 
+        description: "Foreign key to customers"
+        data_tests: 
+          - not_null
+      - name: click_date
+        description: "Date the click occurred"
+        data_tests: 
+          - not_null
+      - name: device 
+        description: "Device type used"
+        data_tests: 
+          - accepted_values: 
+              values: ["mobile", "desktop", "tablet"]
+      - name: cost_usd
+        description: "Cost of the click in USD"
