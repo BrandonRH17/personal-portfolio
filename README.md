@@ -21,18 +21,18 @@ This is my space where I share projects, knowledge, and experiences in key areas
 ## 🚀 Areas of Expertise
 
 ### 📊 Data Analytics
-Transforming data into actionable insights. You'll find:
-- Exploratory analysis and interactive visualizations
-- Executive dashboards and reports
-- Real-world case studies
-- Data storytelling techniques
+Transforming data into actionable insights through rigorous analysis and clear communication. Projects span healthcare, public finance, and geopolitics — always ending in something a decision-maker can act on:
+- Exploratory data analysis with Python and statistical methods
+- Power BI dashboards and executive visual storytelling
+- Healthcare data standards (ICD-9/ICD-10) and clinical analytics
+- Fraud detection and anomaly identification in government data
 
 ### ⚙️ Data Engineering
-Building robust and scalable pipelines. Explore:
-- Modern data architectures
-- ETL/ELT pipelines and orchestration
-- Optimization of ingestion and transformation processes
-- Data warehouse and data lake design
+Building reliable, structured pipelines from raw ingestion to analytics-ready tables:
+- Cloud-scale big data processing with Databricks and Apache Spark
+- Medallion architecture (Bronze → Silver → Gold) on Delta Lake
+- ELT transformation pipelines with dbt and layered data modeling
+- Data quality testing, source declarations, and pipeline lineage
 
 ### 🤖 Agentic AI
 Developing autonomous and intelligent AI systems. Includes:
@@ -55,7 +55,7 @@ Managing products from conception to launch. Covering:
 ```
 ├── data-analytics/       # Data analysis projects
 ├── data-engineering/     # Data pipelines and architectures
-├── agentic-ai/          # Agentic AI projects
+├── agentic-ai/           # Agentic AI projects
 └── product-management/   # Case studies and strategies
 ```
 
@@ -63,9 +63,9 @@ Managing products from conception to launch. Covering:
 
 ## 🛠️ Technologies & Tools
 
-**Data & Analytics:** Python, SQL, Pandas, NumPy, Matplotlib, Seaborn, Plotly, Power BI, Tableau
+**Data & Analytics:** Python, SQL, pandas, NumPy, matplotlib, seaborn, Power BI, Jupyter
 
-**Engineering:** Apache Airflow, dbt, Spark, Kafka, Docker, Kubernetes
+**Data Engineering:** Databricks, Apache Spark, Delta Lake, dbt, DuckDB, Databricks Workflows
 
 **AI & ML:** LangChain, OpenAI, Anthropic Claude, Vector Databases, RAG Systems
 
