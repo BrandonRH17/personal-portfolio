@@ -63,7 +63,7 @@ Managing products from conception to launch. Covering:
 
 ## 🛠️ Technologies & Tools
 
-**Data & Analytics:** Python, SQL, pandas, NumPy, matplotlib, seaborn, Power BI, Jupyter
+**Data & Analytics:** Python, SQL, pandas, NumPy, matplotlib, seaborn, Power BI, dbt, Jupyter
 
 **Data Engineering:** Databricks, Apache Spark, Delta Lake, dbt, DuckDB, Databricks Workflows
 
