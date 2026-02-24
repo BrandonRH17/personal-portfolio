@@ -42,11 +42,11 @@ Building AI agents that solve real business problems — from lead qualification
 - End-to-end agent products built for hackathons and real-world deployment
 
 ### 📱 Product Management
-Managing products from conception to launch. Covering:
-- Product strategy and roadmaps
-- User research and market analysis
-- Product metrics and KPIs
-- Data-driven product case studies
+Leading data products from roadmap to production, with cross-functional teams and measurable business outcomes:
+- Data product strategy, roadmapping, and prioritization
+- Offshore engineering team leadership (8+ engineers across time zones)
+- Platform migration planning and vendor dependency removal
+- Self-service analytics tooling and stakeholder alignment
 
 ---
 
@@ -69,7 +69,7 @@ Managing products from conception to launch. Covering:
 
 **AI & ML:** Azure AI Agents, Azure AI Search, Azure Logic Apps, OpenAI (GPT-4o-mini, text-embedding-3-large), Vector Databases, BannerBear
 
-**Product:** Jira, Confluence, Mixpanel, Amplitude, Figma
+**Product:** Jira, Confluence, Agile/Scrum, Stakeholder Management
 
 ---
 
