@@ -83,6 +83,148 @@ As **Data Product Manager**, I was responsible for:
 
 ---
 
+## 👥 User Research & Stakeholder Discovery
+
+### Target Audiences
+
+Three distinct user groups consumed the data products, each with different needs, technical literacy, and decision-making authority:
+
+| Audience | Who They Are | What They Need | How They Use Data |
+|----------|-------------|----------------|-------------------|
+| **Marketing Teams** | Internal analysts building campaign performance reports | Fast access to post-purchase satisfaction scores segmented by region, store, and time period | Query the lakehouse directly via SQL or BI tools; need granular, filterable data |
+| **Executive Leadership** | C-suite and VPs making strategic decisions | High-level KPIs, trend lines, and competitive benchmarks — delivered on-demand without analyst dependency | Self-service dashboards; need pre-built views that answer "how are we doing?" in under 30 seconds |
+| **Client-Facing Teams** | Account managers presenting insights to retail/restaurant clients | White-labeled satisfaction reports customized per client, delivered on a recurring schedule | Auto-generated reports; need templated outputs that look polished without manual formatting |
+
+### Discovery Process
+
+Understanding these audiences required structured, recurring conversations — not one-off interviews. The following cadences were established:
+
+**Weekly:**
+| Meeting | Participants | Purpose |
+|---------|-------------|---------|
+| Sprint Planning | PM + 8 engineers + solutions architect | Define sprint goals, assign stories, surface blockers |
+| Engineering Standup (async) | PM + engineering team | Daily progress updates via Slack standup bot, sync calls 3x/week |
+| Product Sync | PM + solutions architect | Align on technical feasibility of upcoming roadmap items, review architecture decisions |
+
+**Biweekly:**
+| Meeting | Participants | Purpose |
+|---------|-------------|---------|
+| Sprint Review & Demo | PM + engineers + stakeholders | Demo completed work, collect feedback, validate direction |
+| Retrospective | PM + engineering team | Process improvements, velocity review, team health check |
+| Client Success Alignment | PM + client-facing team leads | Review upcoming client deliverables, prioritize report templates, surface client pain points |
+
+**Monthly:**
+| Meeting | Participants | Purpose |
+|---------|-------------|---------|
+| Executive Product Review | PM + VP of Product + VP of Engineering | Roadmap progress, cost savings update, adoption metrics, strategic pivots |
+| Marketing Data Review | PM + marketing analytics lead | Review data quality, discuss new segmentation needs, validate data model changes |
+| Architecture Decision Review | PM + solutions architect + senior engineers | Evaluate ADRs (Architecture Decision Records), approve schema changes, plan migration phases |
+
+### Key Insights from Research
+
+1. **Marketing teams were losing 4-6 hours/week** waiting for Denodo queries to return results on large satisfaction datasets — this became the primary justification for lakehouse migration priority
+2. **Executives didn't want dashboards — they wanted answers.** The self-service tool was redesigned from a "build your own dashboard" approach to a "pick your question, get your answer" model
+3. **Client-facing teams needed consistency, not flexibility.** They preferred standardized report templates over customizable ones, because their clients valued visual consistency across quarterly deliverables
+
+---
+
+## 🗺️ Product Roadmap
+
+### 12-Month Execution Timeline
+
+```
+Q1 (Months 1-3): Foundation & Discovery
+──────────────────────────────────────────
+Month 1  │ Stakeholder interviews across all 3 audiences
+         │ Audit existing Denodo data sources (47 active connections)
+         │ Define migration priority matrix (by query volume × cost impact)
+         │
+Month 2  │ Architecture design with solutions architect
+         │ Medallion architecture (Bronze/Silver/Gold) schema design
+         │ Set up Databricks workspace and CI/CD pipelines
+         │
+Month 3  │ Migrate top 5 highest-volume data sources (Phase 1)
+         │ Validate data parity: Denodo vs. Databricks outputs
+         │ First sprint demo to executive stakeholders
+
+Q2 (Months 4-6): Core Migration
+──────────────────────────────────────────
+Month 4  │ Migrate next 15 data sources (Phase 2)
+         │ Begin internal tooling development (data access layer)
+         │ Marketing team pilot: direct lakehouse access
+         │
+Month 5  │ Complete remaining data source migrations (Phase 3)
+         │ Internal tooling MVP — replaces 80% of Denodo queries
+         │ Decommission first batch of Denodo connections
+         │
+Month 6  │ Full Denodo decommission
+         │ Cost savings validated and reported to executives
+         │ Mid-year roadmap review and reprioritization
+
+Q3 (Months 7-9): Self-Service & Reporting
+──────────────────────────────────────────
+Month 7  │ Self-service reporting: requirements gathered from executives
+         │ Prototype "pick your question" interface
+         │ Client-facing report template engine — design phase
+         │
+Month 8  │ Self-service reporting MVP launched to executive team
+         │ Iteration based on executive feedback (simplified navigation)
+         │ Report template engine: first 5 templates in production
+         │
+Month 9  │ Self-service adoption tracking begins
+         │ 15 report templates live for client-facing teams
+         │ Gold layer optimization for most-queried KPIs
+
+Q4 (Months 10-12): Scale & Optimize
+──────────────────────────────────────────
+Month 10 │ Self-service tool rolled out to full executive team
+         │ Client-facing teams fully transitioned to auto-reporting
+         │ Performance tuning on Spark jobs (30% query time reduction)
+         │
+Month 11 │ Documentation sprint: Confluence runbooks for all systems
+         │ Knowledge transfer sessions for new team members
+         │ Data quality monitoring framework design
+         │
+Month 12 │ Final executive review: full-year outcomes presentation
+         │ Roadmap handoff for Year 2 initiatives
+         │ Team retrospective and lessons learned
+```
+
+---
+
+## 📊 Success Metrics
+
+### Outcome Metrics (Business Impact)
+
+| Metric | Before | After | Impact |
+|--------|--------|-------|--------|
+| **Annual infrastructure cost** | Denodo license + maintenance | Databricks pay-per-use | **Six-figure annual savings** |
+| **Query response time (avg)** | 45-90 seconds (Denodo virtualization) | 5-15 seconds (direct lakehouse) | **~80% reduction** |
+| **Time to generate client report** | 2-4 hours (manual) | 5-10 minutes (auto-generated) | **~90% reduction** |
+| **Analytics products available** | 3 standard reports | 15+ templates + self-service | **5x expansion** |
+| **Analyst hours on report generation** | ~20 hrs/week across team | ~3 hrs/week (review only) | **~85% reduction** |
+
+### Process Metrics (Team Health)
+
+| Metric | Target | Achieved |
+|--------|--------|----------|
+| Sprint velocity consistency | ±15% variance | ±12% variance across 24 sprints |
+| On-time delivery rate | 80% of committed stories | 87% average over 12 months |
+| Blocker resolution time | < 48 hours | 36 hours average |
+| Documentation coverage | All production systems | 100% — Confluence runbooks for every component |
+| Team retention | Maintain full team for project duration | 8/8 engineers retained for 12 months |
+
+### Adoption Metrics (Product Usage)
+
+| Metric | Q3 Launch | Q4 End | Trend |
+|--------|-----------|--------|-------|
+| Executive self-service weekly active users | 4 | 12 | Growing |
+| Client reports generated via auto-reporting | 15/month | 60+/month | Growing |
+| Support tickets for report requests | 25/week | 4/week | Declining |
+| Marketing team direct lakehouse queries | 50/week | 200+/week | Growing |
+
+---
+
 ## 📂 Project Structure
 
 ```
