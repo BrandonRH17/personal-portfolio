@@ -7,7 +7,7 @@
 
 ### 🎯 Situation
 
-A leading heavy-transport logistics company in Mexico operated a large fleet serving cross-border freight routes. Despite being a market leader, the company faced significant operational inefficiencies:
+A leading heavy-transport logistics company in Guatemala operated a large fleet serving cross-border freight routes. Despite being a market leader, the company faced significant operational inefficiencies:
 
 - **Misfit CRM tools** — the operations team relied on generic CRMs not designed for logistics workflows, forcing manual workarounds for transport scheduling, GPS tracking, and vendor payments
 - **Client dependency on support teams** — clients had no self-service options and depended entirely on customer support to check load status, schedule shipments, and obtain documentation for border crossings
