@@ -42,11 +42,13 @@ Building AI agents that solve real business problems — from lead qualification
 - End-to-end agent products built for hackathons and real-world deployment
 
 ### 📱 Product Management
-Leading data products from roadmap to production, with cross-functional teams and measurable business outcomes:
+Leading software and AI-powered products from roadmap to production, with cross-functional teams and measurable business outcomes:
 - Data product strategy, roadmapping, and prioritization
 - Offshore engineering team leadership (8+ engineers across time zones)
 - Platform migration planning and vendor dependency removal
 - Self-service analytics tooling and stakeholder alignment
+- AI agent design and low-code product development (Retool, n8n)
+- Multi-product delivery across internal and external audiences
 
 ---
 
@@ -69,7 +71,7 @@ Leading data products from roadmap to production, with cross-functional teams an
 
 **AI & ML:** Azure AI Agents, Azure AI Search, Azure Logic Apps, OpenAI (GPT-4o-mini, text-embedding-3-large), Vector Databases, BannerBear
 
-**Product:** Jira, Confluence, Agile/Scrum, Stakeholder Management
+**Product:** Jira, Confluence, Agile/Scrum, Retool, n8n, Stakeholder Management
 
 ---
 
