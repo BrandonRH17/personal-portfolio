@@ -1,0 +1,27 @@
+{
+  "@odata.context": "https://cosmosdb-searcher.search.windows.net/$metadata#indexers/$entity",
+  "@odata.etag": "\"0x8DD87522BE93264\"",
+  "name": "vector-projects-indexer",
+  "description": null,
+  "dataSourceName": "vector-projects-datasource",
+  "skillsetName": "vector-projects-skillset",
+  "targetIndexName": "vector-projects",
+  "disabled": null,
+  "schedule": null,
+  "parameters": {
+    "batchSize": null,
+    "maxFailedItems": null,
+    "maxFailedItemsPerBatch": null,
+    "configuration": {}
+  },
+  "fieldMappings": [
+    {
+      "sourceFieldName": "PROJECT_ID",
+      "targetFieldName": "chunk_id",
+      "mappingFunction": null
+    }
+  ],
+  "outputFieldMappings": [],
+  "cache": null,
+  "encryptionKey": null
+}

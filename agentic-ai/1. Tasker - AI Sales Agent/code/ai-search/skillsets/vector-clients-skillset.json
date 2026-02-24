@@ -1,0 +1,139 @@
+{
+  "@odata.etag": "\"0x8DD86D40172B911\"",
+  "name": "vector-clients-skillset",
+  "description": "Skillset to chunk documents and generate embeddings",
+  "skills": [
+    {
+      "@odata.type": "#Microsoft.Skills.Text.SplitSkill",
+      "name": "#1",
+      "description": "Split skill to chunk documents",
+      "context": "/document",
+      "defaultLanguageCode": "en",
+      "textSplitMode": "pages",
+      "maximumPageLength": 2000,
+      "pageOverlapLength": 500,
+      "maximumPagesToTake": 0,
+      "unit": "characters",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/client_embedding_text",
+          "inputs": []
+        }
+      ],
+      "outputs": [
+        {
+          "name": "textItems",
+          "targetName": "pages"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill",
+      "name": "#2",
+      "context": "/document/pages/*",
+      "resourceUri": "https://openai-neutrino.openai.azure.com",
+      "apiKey": "<redacted>",
+      "deploymentId": "text-embedding-3-large",
+      "dimensions": 3072,
+      "modelName": "text-embedding-3-large",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/pages/*",
+          "inputs": []
+        }
+      ],
+      "outputs": [
+        {
+          "name": "embedding",
+          "targetName": "text_vector"
+        }
+      ]
+    }
+  ],
+  "indexProjections": {
+    "selectors": [
+      {
+        "targetIndexName": "vector-clients",
+        "parentKeyFieldName": "parent_id",
+        "sourceContext": "/document/pages/*",
+        "mappings": [
+          {
+            "name": "text_vector",
+            "source": "/document/pages/*/text_vector",
+            "inputs": []
+          },
+          {
+            "name": "chunk",
+            "source": "/document/pages/*",
+            "inputs": []
+          },
+          {
+            "name": "client_id",
+            "source": "/document/client_id",
+            "inputs": []
+          },
+          {
+            "name": "project_id",
+            "source": "/document/project_id",
+            "inputs": []
+          },
+          {
+            "name": "project_name",
+            "source": "/document/project_name",
+            "inputs": []
+          },
+          {
+            "name": "client_name",
+            "source": "/document/client_name",
+            "inputs": []
+          },
+          {
+            "name": "investment_type",
+            "source": "/document/investment_type",
+            "inputs": []
+          },
+          {
+            "name": "preferred_contact_method",
+            "source": "/document/preferred_contact_method",
+            "inputs": []
+          },
+          {
+            "name": "room_count",
+            "source": "/document/room_count",
+            "inputs": []
+          },
+          {
+            "name": "client_email",
+            "source": "/document/client_email",
+            "inputs": []
+          },
+          {
+            "name": "client_phone_number",
+            "source": "/document/client_phone_number",
+            "inputs": []
+          },
+          {
+            "name": "creation_date",
+            "source": "/document/creation_date",
+            "inputs": []
+          },
+          {
+            "name": "assigned_advisor_id",
+            "source": "/document/assigned_advisor_id",
+            "inputs": []
+          },
+          {
+            "name": "company_id",
+            "source": "/document/company_id",
+            "inputs": []
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "projectionMode": "skipIndexingParentDocuments"
+    }
+  }
+}

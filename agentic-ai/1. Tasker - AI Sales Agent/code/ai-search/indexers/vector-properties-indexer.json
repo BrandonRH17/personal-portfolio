@@ -1,0 +1,27 @@
+{
+  "@odata.context": "https://cosmosdb-searcher.search.windows.net/$metadata#indexers/$entity",
+  "@odata.etag": "\"0x8DD86C57CE35701\"",
+  "name": "vector-properties-indexer",
+  "description": null,
+  "dataSourceName": "vector-properties-datasource",
+  "skillsetName": "vector-properties-skillset",
+  "targetIndexName": "vector-properties",
+  "disabled": null,
+  "schedule": null,
+  "parameters": {
+    "batchSize": null,
+    "maxFailedItems": null,
+    "maxFailedItemsPerBatch": null,
+    "configuration": {}
+  },
+  "fieldMappings": [
+    {
+      "sourceFieldName": "property_id",
+      "targetFieldName": "chunk_id",
+      "mappingFunction": null
+    }
+  ],
+  "outputFieldMappings": [],
+  "cache": null,
+  "encryptionKey": null
+}

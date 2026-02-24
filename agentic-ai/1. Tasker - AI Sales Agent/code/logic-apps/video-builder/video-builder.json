@@ -1,0 +1,301 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "contentVersion": "1.0.0.0",
+        "triggers": {
+            "htpp": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {
+                    "method": "POST",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "asset_url_1": {
+                                "type": "string"
+                            },
+                            "asset_url_2": {
+                                "type": "string"
+                            },
+                            "nombre_cliente": {
+                                "type": "string"
+                            },
+                            "cliente_id": {
+                                "type": "integer"
+                            },
+                            "proyecto_id": {
+                                "type": "integer"
+                            }
+                        },
+                        "required": [
+                            "asset_url_1",
+                            "asset_url_2",
+                            "nombre_cliente",
+                            "cliente_id",
+                            "proyecto_id"
+                        ]
+                    }
+                }
+            }
+        },
+        "actions": {
+            "BB_Intro_": {
+                "runAfter": {
+                    "JSON_-_BB_Body": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Http",
+                "inputs": {
+                    "uri": "https://api.bannerbear.com/v2/videos",
+                    "method": "POST",
+                    "headers": {
+                        "Authorization": "Bearer @{parameters('bannerbear-auth')}"
+                    },
+                    "body": "@outputs('JSON_-_BB_Body')"
+                },
+                "runtimeConfiguration": {
+                    "contentTransfer": {
+                        "transferMode": "Chunked"
+                    }
+                }
+            },
+            "Variables_-_Intro_Video": {
+                "runAfter": {
+                    "GetFirst": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "intro_parameters",
+                            "type": "object",
+                            "value": {
+                                "video_template": "PoRvGO9Xr7wzQqgVLk",
+                                "input_media_url": "https://neutrino-agents.s3.us-east-1.amazonaws.com/test/neutrino/proyectos/1/video_individual.mp4",
+                                "trim_to_length_in_seconds": 5,
+                                "webhook_url": "https://poweredbyneutrino.app.n8n.cloud/webhook/2ea37d2f-34bb-48e0-989a-ea61dcf09886"
+                            }
+                        }
+                    ]
+                }
+            },
+            "JSON_-_BB_Body": {
+                "runAfter": {
+                    "JSON_-_Metadata": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Compose",
+                "inputs": {
+                    "video_template": "@{variables('intro_parameters')['video_template']}",
+                    "input_media_url": "@{variables('intro_parameters')['input_media_url']}",
+                    "modifications": [
+                        {
+                            "name": "titulo",
+                            "text": "@{split(triggerBody()?['nombre_cliente'], ' ')[0]} we are glad to have you!"
+                        }
+                    ],
+                    "trim_to_length_in_seconds": "@variables('intro_parameters')['trim_to_length_in_seconds']",
+                    "metadata": "@{replace(string(outputs('JSON_-_Metadata')), '\\', '\\\"')}",
+                    "webhook_url": "@{variables('intro_parameters')['webhook_url']}"
+                }
+            },
+            "Delay": {
+                "runAfter": {
+                    "BB_Intro_": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Wait",
+                "inputs": {
+                    "interval": {
+                        "count": 10,
+                        "unit": "Second"
+                    }
+                }
+            },
+            "Obtener_filas_(V2)": {
+                "runAfter": {
+                    "getProyectID": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['sqldw']['connectionId']"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/tables/@{encodeURIComponent(encodeURIComponent('[RE_AGENTS].[PROJECTS]'))}/items",
+                    "queries": {
+                        "$filter": "@concat('PROJECT_ID eq ', variables('varProyectoId'))"
+                    }
+                }
+            },
+            "Response": {
+                "runAfter": {
+                    "BB_Outro": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Response",
+                "kind": "Http",
+                "inputs": {
+                    "statusCode": 200,
+                    "body": {
+                        "status": "ok"
+                    }
+                }
+            },
+            "JSON_-_Metadata": {
+                "runAfter": {
+                    "Variables_-_Intro_Video": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Compose",
+                "inputs": {
+                    "video_id": 8,
+                    "correo_electronico_asesor": "@triggerBody()?['correo_electronico_asesor']",
+                    "nombre_proyecto": "@outputs('GetFirst')?['PROJECT_NAME']",
+                    "nombre_cliente": "@triggerBody()?['nombre_cliente']",
+                    "drive_id": "0AMv8Hdk5Ql6EUk9PVA",
+                    "folder_id": "1qZ_GwA1rbYutBZUWlk27awH9clFapmMd",
+                    "tipo_video": "intro"
+                }
+            },
+            "GetFirst": {
+                "runAfter": {
+                    "Obtener_filas_(V2)": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Compose",
+                "inputs": "@first(body('Obtener_filas_(V2)')?['value'])"
+            },
+            "JSON_-_Metadata_Outro": {
+                "runAfter": {
+                    "Initialize_variables__-_Outro": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Compose",
+                "inputs": {
+                    "video_id": 8,
+                    "correo_electronico_asesor": "brandonrh00@gmail.com",
+                    "nombre_proyecto": "@outputs('GetFirst')?['PROJECT_NAME']",
+                    "nombre_cliente": "@triggerBody()?['nombre_cliente']",
+                    "cliente_id": "@triggerBody()?['cliente_id']",
+                    "drive_id": "0AMv8Hdk5Ql6EUk9PVA",
+                    "folder_id": "1qZ_GwA1rbYutBZUWlk27awH9clFapmMd",
+                    "tipo_video": "outro"
+                }
+            },
+            "JSON_-_BB_Body_Outro": {
+                "runAfter": {
+                    "JSON_-_Metadata_Outro": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Compose",
+                "inputs": {
+                    "video_template": "@{variables('outro_variables')['video_template']}",
+                    "input_media_url": "@{variables('outro_variables')['input_media_url']}",
+                    "modifications": [
+                        {
+                            "name": "titulo",
+                            "text": "@{split(triggerBody()?['nombre_cliente'], ' ')[0]} welcome to the family!"
+                        }
+                    ],
+                    "trim_to_length_in_seconds": "@variables('outro_variables')['trim_to_length_in_seconds']",
+                    "metadata": "@{replace(string(outputs('JSON_-_Metadata_Outro')), '\\', '\\\"')}",
+                    "webhook_url": "@{variables('outro_variables')['webhook_url']}"
+                }
+            },
+            "BB_Outro": {
+                "runAfter": {
+                    "JSON_-_BB_Body_Outro": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Http",
+                "inputs": {
+                    "uri": "https://api.bannerbear.com/v2/videos",
+                    "method": "POST",
+                    "headers": {
+                        "Authorization": "Bearer @{parameters('bannerbear-auth')}"
+                    },
+                    "body": "@outputs('JSON_-_BB_Body_Outro')"
+                },
+                "runtimeConfiguration": {
+                    "contentTransfer": {
+                        "transferMode": "Chunked"
+                    }
+                }
+            },
+            "getProyectID": {
+                "runAfter": {},
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "varProyectoId",
+                            "type": "string",
+                            "value": "@{triggerBody()?['proyecto_id']}"
+                        }
+                    ]
+                }
+            },
+            "Initialize_variables__-_Outro": {
+                "runAfter": {
+                    "Delay": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "outro_variables",
+                            "type": "object",
+                            "value": {
+                                "video_template": "4BawKQyZPWnbWG3pqP",
+                                "input_media_url": "@{outputs('GetFirst')?['URL_VIDEO_GENERAL']}",
+                                "trim_to_length_in_seconds": 5,
+                                "webhook_url": "https://poweredbyneutrino.app.n8n.cloud/webhook/2ea37d2f-34bb-48e0-989a-ea61dcf09886"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "outputs": {},
+        "parameters": {
+            "bannerbear-auth": {
+                "defaultValue": "bb_pr_9ad97750ab9031fb2760625cdd86e4",
+                "type": "String"
+            },
+            "$connections": {
+                "type": "Object",
+                "defaultValue": {}
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "type": "Object",
+            "value": {
+                "sqldw": {
+                    "id": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/providers/Microsoft.Web/locations/eastus2/managedApis/sqldw",
+                    "connectionId": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/resourceGroups/ai-agents/providers/Microsoft.Web/connections/sqldw",
+                    "connectionName": "sqldw"
+                }
+            }
+        }
+    }
+}

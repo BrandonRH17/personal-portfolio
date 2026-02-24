@@ -1,0 +1,20 @@
+
+body {
+    margin: 0; font-family: sans-serif; background: #e5f1f5; text-align: center;
+}
+.container {
+    margin-top: 100px;
+}
+input[type=email] {
+    padding: 10px; width: 300px; font-size: 1em;
+}
+#chat-widget {
+    position: fixed; bottom: 20px; right: 20px;
+    width: 300px; background: white; border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    padding: 10px; display: none; flex-direction: column;
+}
+#chat-widget.chat-visible { display: flex; }
+.chat-messages { max-height: 200px; overflow-y: auto; text-align: left; margin-bottom: 10px; }
+.typing-indicator { font-size: 0.8em; color: gray; display: none; }
+.close-btn { cursor: pointer; color: red; align-self: flex-end; }

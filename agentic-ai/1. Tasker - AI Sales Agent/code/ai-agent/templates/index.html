@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title> Tasker - Real Estate Agent</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="static/images/mrTAgent.jpeg"/>
+	<link rel="stylesheet" type="text/css" href="static/vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="static/vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="static/vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="static/css/util.css">
+	<link rel="stylesheet" type="text/css" href="static/css/main.css">
+
+	<!-- Estilos del chat actualizados -->
+	<style>
+		#chat-widget {
+			position: fixed;
+			right: 20px;
+			bottom: 20px;
+			width: 360px;
+			height: 500px;
+			background: #f0f2f5;
+			border-radius: 15px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+			display: none;
+			flex-direction: column;
+			font-family: 'Arial', sans-serif;
+			overflow: hidden;
+			z-index: 9999;
+		}
+		.chat-visible {
+			display: flex !important;
+			animation: fadeInUp 0.4s ease;
+		}
+		@keyframes fadeInUp {
+			from { opacity: 0; transform: translateY(20px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+		.chat-header {
+			background-color: #0084ff;
+			color: white;
+			padding: 15px;
+			display: flex;
+			align-items: center;
+		}
+		.chat-header img {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			margin-right: 10px;
+		}
+		.chat-messages {
+			flex: 1;
+			padding: 15px;
+			overflow-y: auto;
+			background: #fff;
+		}
+		.message {
+			max-width: 80%;
+			margin-bottom: 10px;
+			padding: 10px 15px;
+			border-radius: 20px;
+			clear: both;
+			position: relative;
+			font-size: 14px;
+			line-height: 1.4;
+			word-wrap: break-word;
+		}
+		.user {
+			background: #dcf8c6;
+			float: right;
+			border-bottom-right-radius: 0;
+		}
+		.bot {
+			background: #e4e6eb;
+			float: left;
+			border-bottom-left-radius: 0;
+		}
+		.typing-indicator {
+			display: none;
+			margin: 10px 0;
+			color: #555;
+			font-style: italic;
+		}
+		.typing-animation {
+			display: inline-block;
+			width: 40px;
+			text-align: left;
+		}
+		.typing-animation span {
+			display: inline-block;
+			width: 8px;
+			height: 8px;
+			margin-right: 3px;
+			background-color: #ccc;
+			border-radius: 50%;
+			animation: blink 1.4s infinite both;
+		}
+		.typing-animation span:nth-child(2) {
+			animation-delay: 0.2s;
+		}
+		.typing-animation span:nth-child(3) {
+			animation-delay: 0.4s;
+		}
+		@keyframes blink {
+			0%, 80%, 100% { opacity: 0; }
+			40% { opacity: 1; }
+		}
+		.chat-input {
+			display: flex;
+			border-top: 1px solid #ccc;
+			padding: 10px;
+			background: #f0f2f5;
+		}
+		#userInput {
+			flex: 1;
+			border: none;
+			border-radius: 20px;
+			padding: 10px 15px;
+			font-size: 14px;
+			outline: none;
+		}
+		#chat-widget button {
+			background-color: #0084ff;
+			color: white;
+			border: none;
+			border-radius: 50%;
+			width: 40px;
+			height: 40px;
+			margin-left: 10px;
+			cursor: pointer;
+		}
+		.close-btn {
+			position: absolute;
+			right: 15px;
+			top: 15px;
+			font-size: 18px;
+			color: white;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="bg-img1 size1 overlay1" style="background-image: url('static/images/bg01.jpg');">
+		<div class="size1 p-l-15 p-r-15 p-t-30 p-b-50">
+			<div class="flex-w flex-sb-m p-l-75 p-r-60 p-b-165 respon1">
+				<div class="wrappic1 m-r-30 m-t-10 m-b-10">
+					<a href="#"><img src="static/images/Roomly.png" width="10%" alt="LOGO"></a>
+				</div>
+			</div>
+		<div class="size1 p-l-15 p-r-15 p-t-30 p-b-50">
+			<div class="wsize1 m-lr-auto">
+				<p class="txt-center l1-txt1 p-b-60">
+					Ready to try something  <span class="l1-txt2">better</span> than copy-pase selling?
+				</p>
+
+				<form class="w-full flex-w flex-c-m validate-form" onsubmit="openChat(); return false;">
+					<div class="wrap-input100 validate-input m-b-20">
+						<input id="initialInput" class="input100 placeholder0 m1-txt1" type="text" name="email" placeholder="Type something">
+						<span class="focus-input100"></span>
+					</div>
+					<button class="flex-c-m size3 m1-txt2 how-btn1 trans-04 m-b-20">
+						Send a message
+					</button>
+				</form>
+
+				<p class="txt-center s1-txt1 p-t-5">
+					Made by Neutrino. Powered by Azure.
+				</p>
+			</div>
+			<br>
+			<div class="video-container" style="
+    width: 80%;
+    max-width: 600px;
+    height: 300px;
+    margin: 0 auto;
+    background: #f2f2f2;
+">
+  <iframe
+    src="https://www.youtube.com/embed/0n6wq0PEYI4"
+    style="width:100%; height:100%; border:0;"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
+
+		</div>
+	</div>
+
+	<!-- Chat Widget -->
+	<div id="chat-widget">
+		<div class="chat-header">
+			<img src="static/images/mrTAgent.jpeg" alt="Agente"> <!-- Puedes cambiar por tu imagen -->
+			<span>Tasker - Real Estate</span>
+			<span class="close-btn" onclick="toggleChat()">×</span>
+		</div>
+		<div id="chat-messages" class="chat-messages"></div>
+		<div class="typing-indicator" id="typingIndicator">
+			<div class="message bot">
+				<span class="typing-animation">
+					<span></span><span></span><span></span>
+				</span>
+			</div>
+		</div>
+		<div class="chat-input">
+			<input type="text" id="userInput" placeholder="Escribe tu mensaje..." onkeydown="if(event.key === 'Enter') sendMessage()">
+			<button onclick="sendMessage()">➤</button>
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script>
+function openChat() {
+	const input = document.getElementById("initialInput");
+	const text = input.value.trim();
+
+	if (text !== "") {
+		toggleChat();
+		appendMessage("user", text);
+		input.value = "";
+
+		const typing = document.getElementById("typingIndicator");
+		typing.style.display = "block";
+
+		fetch("/send_message", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({ user_input: text })
+		})
+		.then(response => response.json())
+		.then(data => {
+			typing.style.display = "none";
+			appendMessage("bot", data.assistant_response || "Sin respuesta del agente.");
+		})
+		.catch(error => {
+			typing.style.display = "none";
+			appendMessage("bot", "Hubo un error al contactar al agente.");
+			console.error("Error:", error);
+		});
+	}
+}
+
+		function toggleChat() {
+			const chat = document.getElementById("chat-widget");
+			chat.classList.toggle("chat-visible");
+		}
+
+
+		function formatText(text) {
+			const projects = text.split(/### /).filter(Boolean);
+			let formatted = "";
+
+			projects.forEach(project => {
+				let section = project.trim();
+
+    section = section.replace(
+      /^(\d+\.\sProject ID:[^\n]*)/m,
+      (_, t) => `<h2>${t}</h4>`
+    );
+
+    // 3. Negritas
+    section = section.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+    // 4. Imágenes Markdown
+    section = section.replace(
+      /!\[.*?\]\((https?:\/\/[^\s)]+)\)/g,
+      (_, url) => `<img src="${url}" style="max-width:100%; border-radius:8px; margin:10px 0;" />`
+    );
+
+    // 5. Enlaces Markdown
+    section = section.replace(
+      /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+      (_, label, url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`
+    );
+
+    // 6. Separar líneas
+    const lines = section.split("\n").map(l => l.trim()).filter(Boolean);
+
+    // 7. Recolectar listas e párrafos
+    let html = "";
+    let inList = false;
+
+    lines.forEach(line => {
+      if (/^[-•]\s+/.test(line)) {
+        // línea de lista
+        if (!inList) {
+          inList = true;
+          html += "<ul>";
+        }
+        const item = line.replace(/^[-•]\s+/, "");
+        html += `<li>${item}</li>`;
+      } else {
+        // cierra lista si estaba abierta
+        if (inList) {
+          inList = false;
+          html += "</ul>";
+        }
+        // párrafo normal
+        html += `<p>${line}</p>`;
+      }
+    });
+
+    if (inList) html += "</ul>";
+
+    // 8. Separador horizontal
+    html = html.replace(/---/g, "<hr>");
+
+    formatted += `<div style="margin-bottom:30px;">${html}</div>`;
+  });
+
+  return formatted;
+}
+
+
+
+
+
+		function appendMessage(sender, text) {
+			const chatBox = document.getElementById("chat-messages");
+			const message = document.createElement("div");
+			message.className = `message ${sender}`;
+			message.innerHTML = formatText(text); 
+			chatBox.appendChild(message);
+			chatBox.scrollTop = chatBox.scrollHeight;
+		}
+
+		function replyFromBot(text) {
+			const typing = document.getElementById("typingIndicator");
+			typing.style.display = "block";
+
+			setTimeout(() => {
+				typing.style.display = "none";
+				appendMessage("bot", text);
+			}, 1500);
+		}
+
+
+		function sendMessage() {
+		const input = document.getElementById("userInput");
+		const text = input.value.trim();
+		if (text !== "") {
+			appendMessage("user", text);
+			input.value = "";
+
+			const typing = document.getElementById("typingIndicator");
+			typing.style.display = "block";
+
+			fetch("/send_message", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({ user_input: text })
+			})
+			.then(response => response.json())
+			.then(data => {
+				typing.style.display = "none";
+				appendMessage("bot", data.assistant_response || "Sin respuesta del agente.");
+			})
+			.catch(error => {
+				typing.style.display = "none";
+				appendMessage("bot", "Hubo un error al contactar al agente.");
+				console.error("Error:", error);
+			});
+		}
+	}
+	</script>
+
+</body>
+</html>

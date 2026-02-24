@@ -1,0 +1,211 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "contentVersion": "1.0.0.0",
+        "triggers": {
+            "When_a_HTTP_request_is_received": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {
+                    "method": "POST",
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "tipo_propiedad": {
+                                    "type": "string"
+                                },
+                                "identificador_propiedad": {
+                                    "type": "string"
+                                },
+                                "nombre_proyecto": {
+                                    "type": "string"
+                                },
+                                "tipo_division": {
+                                    "type": "string"
+                                },
+                                "identificador_division": {
+                                    "type": "string"
+                                },
+                                "precio_propiedad_usd": {
+                                    "type": "number"
+                                },
+                                "cantidad_parqueos": {
+                                    "type": "string"
+                                },
+                                "cantidad_bodegas": {
+                                    "type": "string"
+                                },
+                                "cantidad_años_credito": {
+                                    "type": "string"
+                                },
+                                "anios_credito": {
+                                    "type": "string"
+                                },
+                                "porcentaje_enganche": {
+                                    "type": "string"
+                                },
+                                "nombre_asesor": {
+                                    "type": "string"
+                                },
+                                "numero_telefonico_asesor": {
+                                    "type": "string"
+                                },
+                                "correo_electronico_asesor": {
+                                    "type": "string"
+                                },
+                                "url_planos": {
+                                    "type": "string"
+                                },
+                                "metros_cuadrados_propiedad": {
+                                    "type": "string"
+                                },
+                                "metros_cuadrados": {
+                                    "type": "string"
+                                },
+                                "comentarios_extras": {
+                                    "type": "string"
+                                },
+                                "comentarios": {
+                                    "type": "string"
+                                },
+                                "nombre_cliente": {
+                                    "type": "string"
+                                },
+                                "drive_id": {
+                                    "type": "string"
+                                },
+                                "cotizaciones_folder_id": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "actions": {
+            "Response": {
+                "type": "Response",
+                "kind": "Http",
+                "inputs": {
+                    "statusCode": 200,
+                    "body": "@body('Copy_file')?['Path']"
+                },
+                "runAfter": {
+                    "For_each": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Establish_variables": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "variables_cliente",
+                            "type": "object",
+                            "value": {
+                                "client_name": "Juan Pérez",
+                                "project_name": "Residenciales El Prado"
+                            }
+                        }
+                    ]
+                },
+                "runAfter": {}
+            },
+            "Copy_file": {
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['googledrive-1']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "path": "/datasets/default/copyFile",
+                    "queries": {
+                        "source": "https://docs.google.com/spreadsheets/d/10-yxqmMInkfSqPAjZYmBztUjOm_xN-GXcU5L9QYEDOw/",
+                        "destination": "prueba",
+                        "overwrite": true,
+                        "queryParametersSingleEncoded": true
+                    }
+                },
+                "runAfter": {
+                    "Establish_variables": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "For_each": {
+                "type": "foreach",
+                "foreach": "@triggerOutputs()?['body']",
+                "actions": {
+                    "Insert_row": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['googlesheet']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "body": {
+                                "Tipo_propiedad": "@item()?['tipo_propiedad']",
+                                "Identificador_propiedad": "@item()?['identificador_propiedad']",
+                                "Proyecto": "@item()?['nombre_proyecto']",
+                                "Tipo_division": "@item()?['tipo_division']",
+                                "Identificador_division": "@item()?['identificador_division']",
+                                "Precio": "@{item()?['precio_propiedad_usd']}",
+                                "Parqueos": "@item()?['cantidad_parqueos']",
+                                "Bodegas": "@item()?['cantidad_bodegas']",
+                                "Cantidad_x0020_de_x0020_años": "@item()?['cantidad_años_credito']",
+                                "Porcentaje_x0020_enganche": "@item()?['porcentaje_enganche']",
+                                "Nombre_x0020_asesor": "Brandon André Rodríguez Hernández",
+                                "Numero_x0020_telefónico_x0020_asesor": "50233132914",
+                                "Correo_x0020_electrónico_x0020_asesor": "brandonrh00@gmail.com",
+                                "URL_x0020_Planos": "@item()?['url_planos']",
+                                "Metros_x0020_cuadrados": "@item()?['metros_cuadrados_propiedad']",
+                                "Comentarios": "@item()?['comentarios']"
+                            },
+                            "path": "/datasets/@{encodeURIComponent(encodeURIComponent('10-yxqmMInkfSqPAjZYmBztUjOm_xN-GXcU5L9QYEDOw'))}/tables/@{encodeURIComponent(encodeURIComponent('969584038'))}/items"
+                        },
+                        "metadata": {
+                            "10-yxqmMInkfSqPAjZYmBztUjOm_xN-GXcU5L9QYEDOw": "/Cotizacion Template"
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Copy_file": [
+                        "SUCCEEDED"
+                    ]
+                }
+            }
+        },
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "type": "Object",
+                "defaultValue": {}
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "type": "Object",
+            "value": {
+                "googledrive-1": {
+                    "id": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/providers/Microsoft.Web/locations/eastus2/managedApis/googledrive",
+                    "connectionId": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/resourceGroups/ai-agents/providers/Microsoft.Web/connections/googledrive-1",
+                    "connectionName": "googledrive-1"
+                },
+                "googlesheet": {
+                    "id": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/providers/Microsoft.Web/locations/eastus2/managedApis/googlesheet",
+                    "connectionId": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/resourceGroups/ai-agents/providers/Microsoft.Web/connections/googlesheet",
+                    "connectionName": "googlesheet"
+                }
+            }
+        }
+    }
+}

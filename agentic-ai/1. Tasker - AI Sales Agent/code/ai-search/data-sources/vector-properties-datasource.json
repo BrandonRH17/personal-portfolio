@@ -1,0 +1,19 @@
+{
+  "@odata.context": "https://cosmosdb-searcher.search.windows.net/$metadata#datasources/$entity",
+  "@odata.etag": "\"0x8DD86C5425114B7\"",
+  "name": "vector-properties-datasource",
+  "description": null,
+  "type": "azuresql",
+  "subtype": null,
+  "credentials": {
+    "connectionString": "Data Source=tcp:neutrino-azuresql.database.windows.net,1433;Initial Catalog=re_agents;User ID=...;Password=...;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False"
+  },
+  "container": {
+    "name": "properties_vw",
+    "query": null
+  },
+  "dataChangeDetectionPolicy": null,
+  "dataDeletionDetectionPolicy": null,
+  "encryptionKey": null,
+  "identity": null
+}

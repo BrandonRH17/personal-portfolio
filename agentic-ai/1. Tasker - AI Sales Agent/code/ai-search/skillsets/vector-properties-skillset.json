@@ -1,0 +1,164 @@
+{
+  "@odata.etag": "\"0x8DD86C5430C1854\"",
+  "name": "vector-properties-skillset",
+  "description": "Skillset to chunk documents and generate embeddings",
+  "skills": [
+    {
+      "@odata.type": "#Microsoft.Skills.Text.SplitSkill",
+      "name": "#1",
+      "description": "Split skill to chunk documents",
+      "context": "/document",
+      "defaultLanguageCode": "en",
+      "textSplitMode": "pages",
+      "maximumPageLength": 2000,
+      "pageOverlapLength": 500,
+      "maximumPagesToTake": 0,
+      "unit": "characters",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/property_embedding_text",
+          "inputs": []
+        }
+      ],
+      "outputs": [
+        {
+          "name": "textItems",
+          "targetName": "pages"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill",
+      "name": "#2",
+      "context": "/document/pages/*",
+      "resourceUri": "https://openai-neutrino.openai.azure.com",
+      "apiKey": "<redacted>",
+      "deploymentId": "text-embedding-3-large",
+      "dimensions": 3072,
+      "modelName": "text-embedding-3-large",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/pages/*",
+          "inputs": []
+        }
+      ],
+      "outputs": [
+        {
+          "name": "embedding",
+          "targetName": "text_vector"
+        }
+      ]
+    }
+  ],
+  "indexProjections": {
+    "selectors": [
+      {
+        "targetIndexName": "vector-properties",
+        "parentKeyFieldName": "parent_id",
+        "sourceContext": "/document/pages/*",
+        "mappings": [
+          {
+            "name": "text_vector",
+            "source": "/document/pages/*/text_vector",
+            "inputs": []
+          },
+          {
+            "name": "chunk",
+            "source": "/document/pages/*",
+            "inputs": []
+          },
+          {
+            "name": "property_id",
+            "source": "/document/property_id",
+            "inputs": []
+          },
+          {
+            "name": "project_id",
+            "source": "/document/project_id",
+            "inputs": []
+          },
+          {
+            "name": "project_name",
+            "source": "/document/project_name",
+            "inputs": []
+          },
+          {
+            "name": "property_type",
+            "source": "/document/property_type",
+            "inputs": []
+          },
+          {
+            "name": "property_identifier",
+            "source": "/document/property_identifier",
+            "inputs": []
+          },
+          {
+            "name": "property_availability",
+            "source": "/document/property_availability",
+            "inputs": []
+          },
+          {
+            "name": "property_price_usd",
+            "source": "/document/property_price_usd",
+            "inputs": []
+          },
+          {
+            "name": "property_square_meters",
+            "source": "/document/property_square_meters",
+            "inputs": []
+          },
+          {
+            "name": "property_parking_spaces",
+            "source": "/document/property_parking_spaces",
+            "inputs": []
+          },
+          {
+            "name": "creation_date",
+            "source": "/document/creation_date",
+            "inputs": []
+          },
+          {
+            "name": "property_floor_plan_url",
+            "source": "/document/property_floor_plan_url",
+            "inputs": []
+          },
+          {
+            "name": "property_level",
+            "source": "/document/property_level",
+            "inputs": []
+          },
+          {
+            "name": "reserved_agent_id",
+            "source": "/document/reserved_agent_id",
+            "inputs": []
+          },
+          {
+            "name": "reservation_date",
+            "source": "/document/reservation_date",
+            "inputs": []
+          },
+          {
+            "name": "division_type",
+            "source": "/document/division_type",
+            "inputs": []
+          },
+          {
+            "name": "division_identifier",
+            "source": "/document/division_identifier",
+            "inputs": []
+          },
+          {
+            "name": "enterprise_id",
+            "source": "/document/enterprise_id",
+            "inputs": []
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "projectionMode": "skipIndexingParentDocuments"
+    }
+  }
+}

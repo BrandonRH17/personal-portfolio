@@ -1,0 +1,27 @@
+{
+  "@odata.context": "https://cosmosdb-searcher.search.windows.net/$metadata#indexers/$entity",
+  "@odata.etag": "\"0x8DD86D45139FBA4\"",
+  "name": "vector-clients-indexer",
+  "description": null,
+  "dataSourceName": "vector-clients-datasource",
+  "skillsetName": "vector-clients-skillset",
+  "targetIndexName": "vector-clients",
+  "disabled": null,
+  "schedule": null,
+  "parameters": {
+    "batchSize": null,
+    "maxFailedItems": null,
+    "maxFailedItemsPerBatch": null,
+    "configuration": {}
+  },
+  "fieldMappings": [
+    {
+      "sourceFieldName": "client_id",
+      "targetFieldName": "chunk_id",
+      "mappingFunction": null
+    }
+  ],
+  "outputFieldMappings": [],
+  "cache": null,
+  "encryptionKey": null
+}

@@ -1,0 +1,307 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "contentVersion": "1.0.0.0",
+        "triggers": {
+            "When_a_HTTP_request_is_received": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {
+                    "method": "POST",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "entity_type": {
+                                "type": "string"
+                            },
+                            "query": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "actions": {
+            "Get_an_embedding": {
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['azureopenai']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "body": {
+                        "input": "@triggerBody()?['query']"
+                    },
+                    "path": "/deployments/@{encodeURIComponent('text-embedding-3-large')}/embeddings",
+                    "queries": {
+                        "api-version": "2024-02-01"
+                    }
+                },
+                "runAfter": {
+                    "Initialize_variables": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Parse_JSON": {
+                "type": "ParseJson",
+                "inputs": {
+                    "content": "@body('Get_an_embedding')['embedding']",
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Get_an_embedding": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Switch": {
+                "type": "Switch",
+                "expression": "@variables('entity_type')",
+                "default": {
+                    "actions": {
+                        "Response_-_Default": {
+                            "type": "Response",
+                            "kind": "Http",
+                            "inputs": {
+                                "statusCode": 200,
+                                "body": "Didn't send a valid entity_type. (Did you mean project, property or client?)"
+                            }
+                        }
+                    }
+                },
+                "cases": {
+                    "project": {
+                        "actions": {
+                            "Search_vectors_-_Projects": {
+                                "type": "ApiConnection",
+                                "inputs": {
+                                    "host": {
+                                        "connection": {
+                                            "name": "@parameters('$connections')['azureaisearch-1']['connectionId']"
+                                        }
+                                    },
+                                    "method": "post",
+                                    "body": "@body('Parse_JSON')",
+                                    "path": "/vectorSearch",
+                                    "queries": {
+                                        "indexName": "vector-projects",
+                                        "vectorFieldsName": "text_vector",
+                                        "nearestNeighbors": 3
+                                    }
+                                }
+                            },
+                            "Cleanup_-_Projects": {
+                                "type": "Select",
+                                "inputs": {
+                                    "from": "@body('Search_vectors_-_Projects')",
+                                    "select": {
+                                        "project_id": "@item()?['projecT_ID']",
+                                        "project_description": "@item()?['projecT_DESCRIPTION']\r\n",
+                                        "url_video_general": "@item()?['urL_VIDEO_GENERAL']\r\n",
+                                        "url_video_individual": "@item()?['urL_VIDEO_INDIVIDUAL']\r\n",
+                                        "url_video_amenities": "@item()?['urL_VIDEO_AMENITIES']\r\n",
+                                        "url_video_family": "@item()?['urL_VIDEO_FAMILY']\r\n",
+                                        "url_video_zone": "@item()?['urL_VIDEO_ZONE']\r\n",
+                                        "url_video_luxury": "@item()?['urL_VIDEO_LUXURY']\r\n",
+                                        "url_brochure": "@item()?['urL_BROCHURE']\r\n",
+                                        "url_photo_cover": "@item()?['urL_PHOTO_COVER']\r\n"
+                                    }
+                                },
+                                "runAfter": {
+                                    "Search_vectors_-_Projects": [
+                                        "Succeeded"
+                                    ]
+                                }
+                            },
+                            "Response_-_Projects": {
+                                "type": "Response",
+                                "kind": "Http",
+                                "inputs": {
+                                    "statusCode": 200,
+                                    "body": "@body('Cleanup_-_Projects')"
+                                },
+                                "runAfter": {
+                                    "Cleanup_-_Projects": [
+                                        "Succeeded"
+                                    ]
+                                }
+                            }
+                        },
+                        "case": "project"
+                    },
+                    "property": {
+                        "actions": {
+                            "Search_vectors_-_Properties": {
+                                "type": "ApiConnection",
+                                "inputs": {
+                                    "host": {
+                                        "connection": {
+                                            "name": "@parameters('$connections')['azureaisearch-1']['connectionId']"
+                                        }
+                                    },
+                                    "method": "post",
+                                    "body": "@body('Parse_JSON')",
+                                    "path": "/vectorSearch",
+                                    "queries": {
+                                        "indexName": "vector-properties",
+                                        "vectorFieldsName": "text_vector",
+                                        "nearestNeighbors": 3
+                                    }
+                                }
+                            },
+                            "Cleanup_-_Properties": {
+                                "type": "Select",
+                                "inputs": {
+                                    "from": "@body('Search_vectors_-_Properties')",
+                                    "select": {
+                                        "property_id": "@item()?['property_id']\r\n",
+                                        "project_id": "@item()?['project_id']\r\n",
+                                        "project_name": "@item()?['project_name']\r\n",
+                                        "property_type": "@item()?['property_type']\r\n",
+                                        "property_identifier": "@item()?['property_identifier']\r\n",
+                                        "property_availability": "@item()?['property_availability']\r\n",
+                                        "property_price_usd": "@item()?['property_price_usd']\r\n",
+                                        "property_square_meters": "@item()?['property_square_meters']\r\n",
+                                        "property_parking_spaces": "@item()?['property_parking_spaces']\r\n",
+                                        "property_floor_plan_url": "@item()?['property_floor_plan_url']\r\n",
+                                        "reservation_date": "@item()?['reservation_date']\r\n",
+                                        "division_type": "@item()?['division_type']\r\n",
+                                        "division_identifier": "@item()?['division_identifier']\r\n"
+                                    }
+                                },
+                                "runAfter": {
+                                    "Search_vectors_-_Properties": [
+                                        "Succeeded"
+                                    ]
+                                }
+                            },
+                            "Response_-_Properties": {
+                                "type": "Response",
+                                "kind": "Http",
+                                "inputs": {
+                                    "statusCode": 200,
+                                    "body": "@body('Cleanup_-_Properties')"
+                                },
+                                "runAfter": {
+                                    "Cleanup_-_Properties": [
+                                        "Succeeded"
+                                    ]
+                                }
+                            }
+                        },
+                        "case": "property"
+                    },
+                    "client": {
+                        "actions": {
+                            "Search_vectors_-_Clients": {
+                                "type": "ApiConnection",
+                                "inputs": {
+                                    "host": {
+                                        "connection": {
+                                            "name": "@parameters('$connections')['azureaisearch-1']['connectionId']"
+                                        }
+                                    },
+                                    "method": "post",
+                                    "body": "@body('Parse_JSON')",
+                                    "path": "/vectorSearch",
+                                    "queries": {
+                                        "indexName": "vector-clients",
+                                        "vectorFieldsName": "text_vector",
+                                        "nearestNeighbors": 3
+                                    }
+                                }
+                            },
+                            "Cleanup_-_Clients": {
+                                "type": "Select",
+                                "inputs": {
+                                    "from": "@body('Search_vectors_-_Clients')",
+                                    "select": {
+                                        "client_id": "@item()?['client_id']\r\n",
+                                        "project_id": "@item()?['project_id']\r\n",
+                                        "project_name": "@item()?['project_name']\r\n",
+                                        "client_name": "@item()?['client_name']\r\n",
+                                        "investment_type": "@item()?['investment_type']\r\n",
+                                        "preferred_contact_method": "@item()?['preferred_contact_method']\r\n",
+                                        "room_count_interest": "@item()?['room_count']\r\n",
+                                        "client_email": "@item()?['client_email']\r\n",
+                                        "client_phone_number": "@item()?['client_phone_number']\r\n"
+                                    }
+                                },
+                                "runAfter": {
+                                    "Search_vectors_-_Clients": [
+                                        "Succeeded"
+                                    ]
+                                }
+                            },
+                            "Response_-_Clients": {
+                                "type": "Response",
+                                "kind": "Http",
+                                "inputs": {
+                                    "statusCode": 200,
+                                    "body": "@body('Cleanup_-_Clients')"
+                                },
+                                "runAfter": {
+                                    "Cleanup_-_Clients": [
+                                        "Succeeded"
+                                    ]
+                                }
+                            }
+                        },
+                        "case": "client"
+                    }
+                },
+                "runAfter": {
+                    "Parse_JSON": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Initialize_variables": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "entity_type",
+                            "type": "string",
+                            "value": "@{triggerBody()?['entity_type']}"
+                        }
+                    ]
+                },
+                "runAfter": {}
+            }
+        },
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "type": "Object",
+                "defaultValue": {}
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "type": "Object",
+            "value": {
+                "azureopenai": {
+                    "id": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/providers/Microsoft.Web/locations/eastus/managedApis/azureopenai",
+                    "connectionId": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/resourceGroups/ai-agents/providers/Microsoft.Web/connections/azureopenai",
+                    "connectionName": "azureopenai"
+                },
+                "azureaisearch-1": {
+                    "id": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/providers/Microsoft.Web/locations/eastus/managedApis/azureaisearch",
+                    "connectionId": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/resourceGroups/ai-agents/providers/Microsoft.Web/connections/azureaisearch-1",
+                    "connectionName": "azureaisearch-1"
+                }
+            }
+        }
+    }
+}

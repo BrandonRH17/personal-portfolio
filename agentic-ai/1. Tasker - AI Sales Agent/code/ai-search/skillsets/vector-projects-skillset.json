@@ -1,0 +1,134 @@
+{
+  "@odata.etag": "\"0x8DD86B470D8F803\"",
+  "name": "vector-projects-skillset",
+  "description": "Skillset to chunk documents and generate embeddings",
+  "skills": [
+    {
+      "@odata.type": "#Microsoft.Skills.Text.SplitSkill",
+      "name": "#1",
+      "description": "Split skill to chunk documents",
+      "context": "/document",
+      "defaultLanguageCode": "en",
+      "textSplitMode": "pages",
+      "maximumPageLength": 2000,
+      "pageOverlapLength": 500,
+      "maximumPagesToTake": 0,
+      "unit": "characters",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/PROJECT_NAME",
+          "inputs": []
+        }
+      ],
+      "outputs": [
+        {
+          "name": "textItems",
+          "targetName": "pages"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill",
+      "name": "#2",
+      "context": "/document/pages/*",
+      "resourceUri": "https://openai-neutrino.openai.azure.com",
+      "apiKey": "<redacted>",
+      "deploymentId": "text-embedding-3-large",
+      "dimensions": 3072,
+      "modelName": "text-embedding-3-large",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/pages/*",
+          "inputs": []
+        }
+      ],
+      "outputs": [
+        {
+          "name": "embedding",
+          "targetName": "text_vector"
+        }
+      ]
+    }
+  ],
+  "indexProjections": {
+    "selectors": [
+      {
+        "targetIndexName": "vector-projects",
+        "parentKeyFieldName": "parent_id",
+        "sourceContext": "/document/pages/*",
+        "mappings": [
+          {
+            "name": "text_vector",
+            "source": "/document/pages/*/text_vector",
+            "inputs": []
+          },
+          {
+            "name": "chunk",
+            "source": "/document/pages/*",
+            "inputs": []
+          },
+          {
+            "name": "PROJECT_ID",
+            "source": "/document/PROJECT_ID",
+            "inputs": []
+          },
+          {
+            "name": "PROJECT_DESCRIPTION",
+            "source": "/document/PROJECT_DESCRIPTION",
+            "inputs": []
+          },
+          {
+            "name": "URL_VIDEO_GENERAL",
+            "source": "/document/URL_VIDEO_GENERAL",
+            "inputs": []
+          },
+          {
+            "name": "URL_VIDEO_INDIVIDUAL",
+            "source": "/document/URL_VIDEO_INDIVIDUAL",
+            "inputs": []
+          },
+          {
+            "name": "URL_VIDEO_AMENITIES",
+            "source": "/document/URL_VIDEO_AMENITIES",
+            "inputs": []
+          },
+          {
+            "name": "URL_VIDEO_FAMILY",
+            "source": "/document/URL_VIDEO_FAMILY",
+            "inputs": []
+          },
+          {
+            "name": "URL_VIDEO_ZONE",
+            "source": "/document/URL_VIDEO_ZONE",
+            "inputs": []
+          },
+          {
+            "name": "URL_VIDEO_LUXURY",
+            "source": "/document/URL_VIDEO_LUXURY",
+            "inputs": []
+          },
+          {
+            "name": "URL_BROCHURE",
+            "source": "/document/URL_BROCHURE",
+            "inputs": []
+          },
+          {
+            "name": "URL_PHOTO_COVER",
+            "source": "/document/URL_PHOTO_COVER",
+            "inputs": []
+          },
+          {
+            "name": "ENTERPRISE_ID",
+            "source": "/document/ENTERPRISE_ID",
+            "inputs": []
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "projectionMode": "skipIndexingParentDocuments"
+    }
+  }
+}

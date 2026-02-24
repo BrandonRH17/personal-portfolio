@@ -35,11 +35,11 @@ Building reliable, structured pipelines from raw ingestion to analytics-ready ta
 - Data quality testing, source declarations, and pipeline lineage
 
 ### 🤖 Agentic AI
-Developing autonomous and intelligent AI systems. Includes:
-- LLM-based agent implementations
-- Multi-agent systems and orchestration
-- Intelligent process automation
-- Practical agentic AI use cases
+Building AI agents that solve real business problems — from lead qualification to personalized content generation:
+- AI agent architecture with OpenAPI tool-use and serverless orchestration
+- Vector search integration for semantic retrieval across business entities
+- Automated CRM management, quote generation, and personalized video creation
+- End-to-end agent products built for hackathons and real-world deployment
 
 ### 📱 Product Management
 Managing products from conception to launch. Covering:
@@ -67,7 +67,7 @@ Managing products from conception to launch. Covering:
 
 **Data Engineering:** Databricks, Apache Spark, Delta Lake, dbt, DuckDB, Databricks Workflows
 
-**AI & ML:** LangChain, OpenAI, Anthropic Claude, Vector Databases, RAG Systems
+**AI & ML:** Azure AI Agents, Azure AI Search, Azure Logic Apps, OpenAI (GPT-4o-mini, text-embedding-3-large), Vector Databases, BannerBear
 
 **Product:** Jira, Confluence, Mixpanel, Amplitude, Figma
 
