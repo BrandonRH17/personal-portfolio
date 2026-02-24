@@ -164,8 +164,8 @@
                     "correo_electronico_asesor": "@triggerBody()?['correo_electronico_asesor']",
                     "nombre_proyecto": "@outputs('GetFirst')?['PROJECT_NAME']",
                     "nombre_cliente": "@triggerBody()?['nombre_cliente']",
-                    "drive_id": "0AMv8Hdk5Ql6EUk9PVA",
-                    "folder_id": "1qZ_GwA1rbYutBZUWlk27awH9clFapmMd",
+                    "drive_id": "<GOOGLE_DRIVE_ID>",
+                    "folder_id": "<GOOGLE_FOLDER_ID>",
                     "tipo_video": "intro"
                 }
             },
@@ -187,12 +187,12 @@
                 "type": "Compose",
                 "inputs": {
                     "video_id": 8,
-                    "correo_electronico_asesor": "brandonrh00@gmail.com",
+                    "correo_electronico_asesor": "<ADVISOR_EMAIL>",
                     "nombre_proyecto": "@outputs('GetFirst')?['PROJECT_NAME']",
                     "nombre_cliente": "@triggerBody()?['nombre_cliente']",
                     "cliente_id": "@triggerBody()?['cliente_id']",
-                    "drive_id": "0AMv8Hdk5Ql6EUk9PVA",
-                    "folder_id": "1qZ_GwA1rbYutBZUWlk27awH9clFapmMd",
+                    "drive_id": "<GOOGLE_DRIVE_ID>",
+                    "folder_id": "<GOOGLE_FOLDER_ID>",
                     "tipo_video": "outro"
                 }
             },
@@ -277,7 +277,7 @@
         "outputs": {},
         "parameters": {
             "bannerbear-auth": {
-                "defaultValue": "bb_pr_9ad97750ab9031fb2760625cdd86e4",
+                "defaultValue": "<REDACTED>",
                 "type": "String"
             },
             "$connections": {
@@ -291,8 +291,8 @@
             "type": "Object",
             "value": {
                 "sqldw": {
-                    "id": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/providers/Microsoft.Web/locations/eastus2/managedApis/sqldw",
-                    "connectionId": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/resourceGroups/ai-agents/providers/Microsoft.Web/connections/sqldw",
+                    "id": "/subscriptions/<AZURE_SUBSCRIPTION_ID>/providers/Microsoft.Web/locations/eastus2/managedApis/sqldw",
+                    "connectionId": "/subscriptions/<AZURE_SUBSCRIPTION_ID>/resourceGroups/ai-agents/providers/Microsoft.Web/connections/sqldw",
                     "connectionName": "sqldw"
                 }
             }

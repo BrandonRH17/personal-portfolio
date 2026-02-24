@@ -292,13 +292,13 @@
             "type": "Object",
             "value": {
                 "azureopenai": {
-                    "id": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/providers/Microsoft.Web/locations/eastus/managedApis/azureopenai",
-                    "connectionId": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/resourceGroups/ai-agents/providers/Microsoft.Web/connections/azureopenai",
+                    "id": "/subscriptions/<AZURE_SUBSCRIPTION_ID>/providers/Microsoft.Web/locations/eastus/managedApis/azureopenai",
+                    "connectionId": "/subscriptions/<AZURE_SUBSCRIPTION_ID>/resourceGroups/ai-agents/providers/Microsoft.Web/connections/azureopenai",
                     "connectionName": "azureopenai"
                 },
                 "azureaisearch-1": {
-                    "id": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/providers/Microsoft.Web/locations/eastus/managedApis/azureaisearch",
-                    "connectionId": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/resourceGroups/ai-agents/providers/Microsoft.Web/connections/azureaisearch-1",
+                    "id": "/subscriptions/<AZURE_SUBSCRIPTION_ID>/providers/Microsoft.Web/locations/eastus/managedApis/azureaisearch",
+                    "connectionId": "/subscriptions/<AZURE_SUBSCRIPTION_ID>/resourceGroups/ai-agents/providers/Microsoft.Web/connections/azureaisearch-1",
                     "connectionName": "azureaisearch-1"
                 }
             }

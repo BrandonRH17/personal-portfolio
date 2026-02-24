@@ -126,7 +126,7 @@
                     "method": "post",
                     "path": "/datasets/default/copyFile",
                     "queries": {
-                        "source": "https://docs.google.com/spreadsheets/d/10-yxqmMInkfSqPAjZYmBztUjOm_xN-GXcU5L9QYEDOw/",
+                        "source": "https://docs.google.com/spreadsheets/d/<GOOGLE_SHEETS_TEMPLATE_ID>/",
                         "destination": "prueba",
                         "overwrite": true,
                         "queryParametersSingleEncoded": true
@@ -162,17 +162,17 @@
                                 "Bodegas": "@item()?['cantidad_bodegas']",
                                 "Cantidad_x0020_de_x0020_años": "@item()?['cantidad_años_credito']",
                                 "Porcentaje_x0020_enganche": "@item()?['porcentaje_enganche']",
-                                "Nombre_x0020_asesor": "Brandon André Rodríguez Hernández",
-                                "Numero_x0020_telefónico_x0020_asesor": "50233132914",
-                                "Correo_x0020_electrónico_x0020_asesor": "brandonrh00@gmail.com",
+                                "Nombre_x0020_asesor": "<ADVISOR_NAME>",
+                                "Numero_x0020_telefónico_x0020_asesor": "<ADVISOR_PHONE>",
+                                "Correo_x0020_electrónico_x0020_asesor": "<ADVISOR_EMAIL>",
                                 "URL_x0020_Planos": "@item()?['url_planos']",
                                 "Metros_x0020_cuadrados": "@item()?['metros_cuadrados_propiedad']",
                                 "Comentarios": "@item()?['comentarios']"
                             },
-                            "path": "/datasets/@{encodeURIComponent(encodeURIComponent('10-yxqmMInkfSqPAjZYmBztUjOm_xN-GXcU5L9QYEDOw'))}/tables/@{encodeURIComponent(encodeURIComponent('969584038'))}/items"
+                            "path": "/datasets/@{encodeURIComponent(encodeURIComponent('<GOOGLE_SHEETS_TEMPLATE_ID>'))}/tables/@{encodeURIComponent(encodeURIComponent('969584038'))}/items"
                         },
                         "metadata": {
-                            "10-yxqmMInkfSqPAjZYmBztUjOm_xN-GXcU5L9QYEDOw": "/Cotizacion Template"
+                            "<GOOGLE_SHEETS_TEMPLATE_ID>": "/Cotizacion Template"
                         }
                     }
                 },
@@ -196,13 +196,13 @@
             "type": "Object",
             "value": {
                 "googledrive-1": {
-                    "id": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/providers/Microsoft.Web/locations/eastus2/managedApis/googledrive",
-                    "connectionId": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/resourceGroups/ai-agents/providers/Microsoft.Web/connections/googledrive-1",
+                    "id": "/subscriptions/<AZURE_SUBSCRIPTION_ID>/providers/Microsoft.Web/locations/eastus2/managedApis/googledrive",
+                    "connectionId": "/subscriptions/<AZURE_SUBSCRIPTION_ID>/resourceGroups/ai-agents/providers/Microsoft.Web/connections/googledrive-1",
                     "connectionName": "googledrive-1"
                 },
                 "googlesheet": {
-                    "id": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/providers/Microsoft.Web/locations/eastus2/managedApis/googlesheet",
-                    "connectionId": "/subscriptions/91c10a2b-e8c8-4e07-82f1-35560d0bb7bc/resourceGroups/ai-agents/providers/Microsoft.Web/connections/googlesheet",
+                    "id": "/subscriptions/<AZURE_SUBSCRIPTION_ID>/providers/Microsoft.Web/locations/eastus2/managedApis/googlesheet",
+                    "connectionId": "/subscriptions/<AZURE_SUBSCRIPTION_ID>/resourceGroups/ai-agents/providers/Microsoft.Web/connections/googlesheet",
                     "connectionName": "googlesheet"
                 }
             }

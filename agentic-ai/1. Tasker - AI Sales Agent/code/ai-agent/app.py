@@ -6,6 +6,7 @@ from fastapi.templating import Jinja2Templates
 from azure.ai.projects import AIProjectClient
 from azure.identity import DefaultAzureCredential
 import time
+import os
 
 app = FastAPI()
 
@@ -15,13 +16,13 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 # Set Agent to Use
-AGENT_ID = "asst_gkaevTebcAl01U5I9oEOyHP4"
+AGENT_ID = os.environ["AZURE_AGENT_ID"]
 
 # Init Client Project
 try:
     project_client = AIProjectClient.from_connection_string(
         credential=DefaultAzureCredential(),
-        conn_str="eastus.api.azureml.ms;91c10a2b-e8c8-4e07-82f1-35560d0bb7bc;ai-agents;re-estate-agents"
+        conn_str=os.environ["AZURE_AI_PROJECT_CONNECTION_STRING"]
     )
 except Exception as e:
     print("Connection error:", e)

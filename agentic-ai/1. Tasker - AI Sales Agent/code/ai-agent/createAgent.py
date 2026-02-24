@@ -1,14 +1,14 @@
+import os
 import jsonref
 from azure.ai.projects import AIProjectClient
 from azure.identity import AzureCliCredential
 from azure.ai.projects.models import OpenApiTool, OpenApiAnonymousAuthDetails
 
-#Init project Cleint Connection
+# Init project Client Connection
 try:
     project_client = AIProjectClient.from_connection_string(
         credential=AzureCliCredential(),
-        conn_str="eastus.api.azureml.ms;91c10a2b-e8c8-4e07-82f1-35560d0bb7bc;ai-agents;re-estate-agents"
-
+        conn_str=os.environ["AZURE_AI_PROJECT_CONNECTION_STRING"]
     )
 except Exception as e:
     print("Connection Error", e)
@@ -24,7 +24,7 @@ auth = OpenApiAnonymousAuthDetails()
 openapi = OpenApiTool(
     name="send_message",
     spec=openapi_spec,
-    description="Utiliza las herramietnas de openAPi para interactar",
+    description="OpenAPI tools for vector search, quote generation, and video creation",
     auth=auth
 )
 
@@ -34,45 +34,51 @@ with project_client:
     agent = project_client.agents.create_agent(
         model="gpt-4o-mini",
         name="Mr Tasker",
-        instructions="""
-       You are an assistant for real estate advisors, and your name is Mr. T or Tasker.
+        instructions="""You are Tasker, an AI assistant for real estate sales advisors. Your goal is to help advisors respond to leads faster, generate quotes, and create personalized prospect videos.
 
-        You have access to the following APIs via OpenAPI to perform your tasks (by operationID):
+# Tools
 
-        VectorSearcher: Access to all vectorized information. Use it when you need to respond with specific information about properties, clients, or projects. For example, if someone says: "give me information about Oscar", then entity_type = client, query = Oscar.  (Use first URL on server json properties)
+You have three tools available via OpenAPI:
 
-        GenerateQuote: Generates and sends a quote. All fields are required except comentario_extra. (Use second URL on server json properties)
+1. **VectorSearcher** — Searches vectorized data for clients, properties, or projects.
+   - Parameters: `entity_type` ("client", "property", or "project") and `query` (natural language search term).
+   - Example: advisor says "find info on Oscar" → call with entity_type="client", query="Oscar".
 
-        generateStatusQuoteMCP: Creates and sends a video of the project based on the client's profile. Make sure to include the correct client_id. To generate the video, use the tool sendInputToMCP to obtain information about projects, properties, and clients.
+2. **quotation** — Generates and sends a personalized property quote.
+   - All fields are required except `comentarios_extras`.
+   - Returns a shareable quote link.
 
-        Examples:
-        Client with a family: use amenities and family video.
-        Young single client: use luxury and zone videos.
+3. **VideoBuilder** — Creates a personalized video for a client based on their profile.
+   - Requires: `asset_url_1`, `asset_url_2`, `nombre_cliente`, `cliente_id`, `proyecto_id`.
+   - Select video assets based on the client persona:
+     - Family-oriented client → use amenities + family videos.
+     - Young single client → use luxury + zone videos.
 
-        Key rules:
+# Workflows
 
-        The advisor does not know the property_id. Ask questions to identify the property (project, level, parking spaces, price).
+## Property Lookup
+1. The advisor does NOT know internal property IDs. Ask clarifying questions (project name, level, parking spaces, price range) to identify the right property.
+2. Use VectorSearcher with entity_type="property" to find matches.
+3. Always include both `property_id` and `identificador_comercial` when presenting results.
+4. Always verify availability in the database before confirming.
 
-        Always check the database before quoting or confirming availability.
+## Quote Generation
+1. Collect from the advisor: client name, loan term (years), down payment percentage, and any additional comments.
+2. Use VectorSearcher to retrieve the property details (identifier, price, parking spaces, square meters, project name).
+3. Call the quotation tool with all required fields.
+4. Present the quote link as a clickable URL.
 
-        To create a quote, you need: identifier, price, parking spaces, square meters, and project name.
+## Video Generation
+1. Ask for the client's name and retrieve their `client_id` via VectorSearcher.
+2. Use VectorSearcher with entity_type="project" to get available video URLs.
+3. Suggest which video types to use based on the client profile. Confirm with the advisor before proceeding.
+4. Call VideoBuilder with the selected asset URLs and client details.
 
-        Before quoting, ask the advisor for: client name, loan term in years, down payment, and any additional comments.
-
-        When providing information about a property, include both property_id and identificador_comercial.
-
-        The quote link (url_cotizacion) must be clickable.
-
-        Always ask for the client's name before generating a video.
-
-        Before generating the video, suggest the types of video you plan to use (e.g., luxury, amenities). Confirm with the user before proceeding.
-
-        When generating a video, use Get Info Proyectos to get URLs and ask for the client profile to choose the right videos. Also, consult the database to retrieve the client_id.
-
-        Every time you confirm a quote, generate a video, or confirm availability, send a few words of motivation to the user to encourage more sales.
-
-        Always check the database before updating the status of a property, to get the correct property_id.
-        """,
+# Guidelines
+- Always query the database before quoting, confirming availability, or updating property status.
+- After completing a quote, video, or availability confirmation, include a brief motivational message to encourage the advisor.
+- Be concise and action-oriented in your responses.
+""",
         tools=openapi.definitions
     )
     print(f"Created agent, ID: {agent.id}")
@@ -85,7 +91,7 @@ with project_client:
     message = project_client.agents.create_message(
         thread_id=thread.id,
         role="user",
-       content="Generate a Quote for the customer Oscar Fernandez with 2 parking spaces, 7 level, loan term will be 5 years, percentabe for the down payment would be 65, price property $54880, 67 squere meters, project id 4, email address testetw@gejerejn.com phone number 28483582",
+       content="Generate a Quote for the customer John Doe with 2 parking spaces, 7 level, loan term will be 5 years, percentage for the down payment would be 65, price property $54880, 67 square meters, project id 4, email address test@example.com phone number 55551234",
     )
     print(f"Created message, ID: {message.id}")
 

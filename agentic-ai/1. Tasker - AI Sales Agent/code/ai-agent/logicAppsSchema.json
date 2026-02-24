@@ -47,7 +47,7 @@
             "name": "sig",
             "in": "query",
             "required": true,
-            "schema": { "type": "string", "default": "e6XeBm0shXuiuO2qQ7qGE47lbNZh3iBELf0Nf7c1p10" }
+            "schema": { "type": "string", "default": "<REDACTED>" }
           }
         ],
         "requestBody": {
@@ -175,7 +175,7 @@
             "name": "sig",
             "in": "query",
             "required": true,
-            "schema": { "type": "string", "default": "yqzaPWiqGAkwvJyzl-H6zFxpJ_Oj1jiUkesxpsAk0kU" }
+            "schema": { "type": "string", "default": "<REDACTED>" }
           }
         ],
         "requestBody": {
@@ -271,7 +271,7 @@
             "name": "sig",
             "in": "query",
             "required": true,
-            "schema": { "type": "string", "default": "SVVU-W-WnFAB1deoOsJtJFKeaosx2bgqsWt3BT8Tf78" }
+            "schema": { "type": "string", "default": "<REDACTED>" }
           }
         ],
         "requestBody": {

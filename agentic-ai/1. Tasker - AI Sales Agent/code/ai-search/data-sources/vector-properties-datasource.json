@@ -6,7 +6,7 @@
   "type": "azuresql",
   "subtype": null,
   "credentials": {
-    "connectionString": "Data Source=tcp:neutrino-azuresql.database.windows.net,1433;Initial Catalog=re_agents;User ID=...;Password=...;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False"
+    "connectionString": "<REDACTED>"
   },
   "container": {
     "name": "properties_vw",
